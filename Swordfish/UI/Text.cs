@@ -19,4 +19,29 @@ namespace Swordfish.UI
     {
 
     }
+
+    internal class Label 
+    {
+        private TextStyle _style;
+        private string _text;
+        public Label(string text){
+            _text = text;
+        }
+        public Label(string text, TextStyle style){
+            _text = text;
+            _style = style;
+        }
+    }
+    public void onHover()
+    {
+            
+    }
+    public void onClick()
+    {
+
+    }
+    public void update()
+    {
+
+    }
 }

@@ -28,23 +28,45 @@ namespace Swordfish.UI
         ///</summary>
         public ContextButton(int width, int height, int xpos, int ypos, string title)
         {
-
+            _w = width;
+            _h = height;
+            _x = xpos;
+            _y = ypos;
+            _title = title;
         }
         public ContextButton(int width, int height, int xpos, int ypos, string title, buttonStyle k)
         {
-
+            _w = width;
+            _h = height;
+            _x = xpos;
+            _y = ypos;
+            _title = title;
+            _buttonStyle = k;
         }
         public ContextButton(int width, int height, int xpos, int ypos, string title, buttonStyle k, textStyle z)
         {
-
+            _w = width;
+            _h = height;
+            _x = xpos;
+            _y = ypos;
+            _title = title;
+            _buttonStyle = k;
+            _textStyle = z;
         }
-        void onHover()
+
+       
+        public void onHover()
+        {
+            
+        }
+        public void onClick()
         {
 
         }
-        void onClick()
+        public void update()
         {
 
         }
+        
     }
 }

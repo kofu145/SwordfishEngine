@@ -13,7 +13,7 @@ namespace Swordfish.UI
         {
             FLAT = 0,
             ROUNDED = 1,
-            ROUND = 3,
+            ROUND = 2,
         }
         private int _w; // width
         private int _h; // height

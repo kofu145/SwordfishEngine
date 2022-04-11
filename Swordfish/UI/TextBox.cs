@@ -18,21 +18,21 @@ namespace Swordfish.UI
             _fs = fontSize;
             _s = style;
         }
-    public void onHover()
-    {
+        public void onHover()
+        {
 
-    }
-    public void onClick()
-    {
+        }
+        public void onClick()
+        {
 
-    }
-    public void OnLoad()
-    {
+        }
+        public void OnLoad()
+        {
             
-    }
-    public void Update()
-    {
+        }
+        public void Update()
+        {
 
-    }
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 using Swordfish.ECS;
 namespace Swordfish.UI
 {
-    internal class TextBox : IComponent
+    public class TextBox : IComponent
     {
         private int _l;
         private int _fs;

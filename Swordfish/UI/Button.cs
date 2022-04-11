@@ -7,7 +7,7 @@ namespace Swordfish.UI
     ///<summary>
     /// basic context button with width, height, x position, y position and title
     ///</summary>
-    internal class ContextButton : IComponent
+    public class ContextButton : IComponent
     {
         public enum ButtonStyle
         {

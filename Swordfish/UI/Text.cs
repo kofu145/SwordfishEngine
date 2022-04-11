@@ -15,12 +15,12 @@ namespace Swordfish.UI
         STRIKETHROUGH = 2,
         UNDERLINE = 4,
     }
-    internal class Text
+    public class Text
     {
 
     }
 
-    internal class Label : IComponent
+    public class Label : IComponent
     {
         private TextStyle _style;
         private string _text;

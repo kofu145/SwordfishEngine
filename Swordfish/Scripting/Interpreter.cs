@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using IronPython.Runtime;
 using IronPython.Hosting;
+using Swordfish.ECS;
 using Microsoft.Scripting.Hosting;
-namespace Swordfish.ECS.Scripting
+namespace Swordfish.Scripting
 {
     public class Interpreter
     {
@@ -25,8 +26,6 @@ namespace Swordfish.ECS.Scripting
 
         }
 
-
-  
         // run scripts on every frame, also clear inactive entities
         public void Update()
         {
@@ -49,18 +48,43 @@ namespace Swordfish.ECS.Scripting
                 var scope = pyInterpreter.CreateScope();
 
                 /* 
-                 foreach(IComponent in (?)
+                 foreach(IComponent in (?))
                  {
                  scope.SetVariable("Component data name", "Component data value");
                  }
                  */
                 _script.script.Execute(scope);
             }
+        }
 
+        // returns true if script is successfully created
+        public bool createScript(string internalFilePath)
+        {
+            try
+            {
+                entityScripts.AddLast(new GameScript(pyInterpreter, internalFilePath));
+            } catch(Exception Exc)
+            {
+                Console.WriteLine(Exc.ToString());
+                return false;
+            }
 
+            return true;
+        }
+        // returns true if script with entity is successfully created
+        public bool createScript(string internalFilePath, Entity e)
+        {
 
+            try
+            {
+                entityScripts.AddLast(new GameScript(pyInterpreter, internalFilePath, e.id));
+            } catch(Exception Exc)
+            {
+                Console.WriteLine(Exc.ToString());
+                return false;
+            }
 
-
+            return true;
         }
 
         // this should be called BEFORE every update() call to make sure nothing is updated after a scene change

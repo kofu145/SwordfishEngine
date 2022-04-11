@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Swordfish.ECS;
 namespace Swordfish.UI
 {
-    internal class TextBox
+    internal class TextBox : IComponent
     {
         private int _l;
         private int _fs;
@@ -20,13 +20,17 @@ namespace Swordfish.UI
         }
     public void onHover()
     {
-            
+
     }
     public void onClick()
     {
 
     }
-    public void update()
+    public void OnLoad()
+    {
+            
+    }
+    public void Update()
     {
 
     }

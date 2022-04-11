@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Swordfish.ECS;
 namespace Swordfish.UI
 {
     ///<summary>
     /// basic context button with width, height, x position, y position and title
     ///</summary>
-    internal class ContextButton
+    internal class ContextButton : IComponent
     {
         public enum ButtonStyle
         {
@@ -34,7 +34,7 @@ namespace Swordfish.UI
             _y = ypos;
             _title = title;
         }
-        public ContextButton(int width, int height, int xpos, int ypos, string title, buttonStyle k)
+        public ContextButton(int width, int height, int xpos, int ypos, string title, ButtonStyle k)
         {
             _w = width;
             _h = height;
@@ -43,7 +43,7 @@ namespace Swordfish.UI
             _title = title;
             _buttonStyle = k;
         }
-        public ContextButton(int width, int height, int xpos, int ypos, string title, buttonStyle k, textStyle z)
+        public ContextButton(int width, int height, int xpos, int ypos, string title, ButtonStyle k, TextStyle z)
         {
             _w = width;
             _h = height;
@@ -63,7 +63,11 @@ namespace Swordfish.UI
         {
 
         }
-        public void update()
+        public void Update()
+        {
+
+        }
+        public void OnLoad()
         {
 
         }

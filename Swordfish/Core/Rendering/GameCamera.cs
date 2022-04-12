@@ -7,13 +7,12 @@ namespace Swordfish.Core.Rendering
 {
     internal class GameCamera
     {
-        public Vector3 Position;
         public Vector2 WindowSize { private get; set; }
         public float Zoom;
 
-        public GameCamera()
+        public GameCamera(float zoom)
         {
-
+            this.Zoom = zoom;
         }
 
         public Matrix4 GetViewMatrix()

@@ -25,7 +25,7 @@ namespace Swordfish.Components
         public Camera(bool autoSetCameraSize = true, float zoom = 1f)
         {
             this.AutoSetCameraSize = autoSetCameraSize;
-            gameCamera = new GameCamera();
+            gameCamera = new GameCamera(zoom);
             this.Zoom = zoom;
         }
 

@@ -84,6 +84,7 @@ namespace Swordfish.Core.Rendering
             {
                 cameraComponent.SetCameraBounds(Size.X, Size.Y);
             }
+            this.spriteRenderer = new SpriteRenderer();
 
             GameStateManager.Instance.OnLoad();
 

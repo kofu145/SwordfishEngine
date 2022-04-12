@@ -15,7 +15,7 @@ namespace Swordfish.Scripting
     internal class GameScript
     {
 
-        public readonly Guid entityID;
+        public readonly List<Guid> entityID = new List<Guid>();
         public readonly bool isAttached = false;
         public readonly ScriptSource script;
 
@@ -30,15 +30,18 @@ namespace Swordfish.Scripting
         }
 
         /// <summary>
-        /// The constructor for a script object.
+        /// The constructor for a script object. Pass an array of GUIDs to attach scripts to multiple entities.
         /// </summary>
-        public GameScript(ScriptEngine e, string fileName, Guid _ID)
+        public GameScript(ScriptEngine e, string fileName, Guid[] _ID)
         {
             // compile every script once to avoid redoing this
             StreamReader SR = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Swordfish.py." + fileName));
             script = e.CreateScriptSourceFromString(SR.ReadToEnd());
             isAttached = true;
-            entityID = _ID;
+            foreach(Guid id in _ID)
+            {
+                entityID.Add(id);
+            }
         }
 
     } 

@@ -71,13 +71,20 @@ namespace Swordfish.Scripting
 
             return true;
         }
-        // returns true if script with entity is successfully created
-        public bool createScript(string internalFilePath, Entity e)
+        
+        // returns true if script with entity array is successfully created
+        // usage: createScript("filepath", create new Entity[numOfAttachedEnts] { ents } )
+        public bool createScript(string internalFilePath, Entity[] e)
         {
-
+            
             try
             {
-                entityScripts.AddLast(new GameScript(pyInterpreter, internalFilePath, e.id));
+                List<Guid> guids = new List<Guid>();
+                foreach(Entity z in e)
+                {
+                    guids.Add(z.id);
+                }
+                entityScripts.AddLast(new GameScript(pyInterpreter, internalFilePath, guids.ToArray()));
             } catch(Exception Exc)
             {
                 Console.WriteLine(Exc.ToString());

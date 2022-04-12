@@ -5,42 +5,42 @@ using System.Text;
 namespace Swordfish.Core
 {
     /// <summary>
-    /// A convenient interface for all gamestates. This should NOT be utilized for creating gamestates.
+    /// An abstract class defining the contents of a gamestate. All gamestates MUST derive from this.
     /// </summary>
     /// <remarks>
-    /// This should only be utilized as a check for any type of gamestate, rather
-    /// than for the implementation of one.
+    /// Gamestates act as environments to hold and collect your content. You can think of them as
+    /// levels to utilize, whether for a full simple game or for ui elements like menus.
     /// </remarks>
-    public interface IGameState
+    public abstract class GameState : IGameState
     {
         /// <summary>
         /// The main scene of the game state.
         /// </summary>
-        Scene GameScene { get; set; }
+        public abstract Scene GameScene { get; set; }
 
         /// <summary>
         /// Called on the initialization of the game state.
-        /// </summary>        
-        void Initialize();
+        /// </summary>
+        public abstract void Initialize();
 
         /// <summary>
         /// Called on the loading of everything in the scene.
         /// </summary>
-        void OnLoad();
+        public abstract void OnLoad();
 
         /// <summary>
         /// Called when content is unloaded.
         /// </summary>
-        void OnUnload();
+        public abstract void OnUnload();
 
         /// <summary>
         /// Called on a fixed timestep. This should include your game logic.
         /// </summary>
-        void Update();
+        public abstract void Update();
 
         /// <summary>
         /// The rendering call, called before Update. Draw calls for rendering sprites should be called here.
         /// </summary>
-        void Draw();
+        public abstract void Draw();
     }
 }

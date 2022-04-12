@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Swordfish.Core.Rendering
 {
-    class Camera
+    internal class UIRenderer
     {
+        // yet to be done lel
     }
 }

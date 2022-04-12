@@ -6,6 +6,9 @@ namespace Swordfish.Core
 {
     class GameStateManager
     {
+        /// <summary>
+        /// The singleton instance of the GameStateManager.
+        /// </summary>
         private static GameStateManager instance;
 
         private Stack<IGameState> screens = new Stack<IGameState>();

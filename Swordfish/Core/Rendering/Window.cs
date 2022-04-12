@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
-
+using Swordfish.ECS;
+using Swordfish.Components;
 
 namespace Swordfish.Core.Rendering
 {
@@ -33,6 +36,10 @@ namespace Swordfish.Core.Rendering
 
         private Shader shader;
 
+        private Camera cameraComponent;
+
+        private SpriteRenderer spriteRenderer;
+         
         private int elementBufferObject;
 
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, IGameState initialGameState)
@@ -57,7 +64,7 @@ namespace Swordfish.Core.Rendering
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
-            shader = new Shader("../../../Shaders/shader.vert", "../../../Shaders/shader.frag");
+            shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
 
             shader.Use();
 
@@ -69,27 +76,52 @@ namespace Swordfish.Core.Rendering
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
 
+            // get our camera
+            cameraComponent = GameStateManager.Instance.GetScreen().GameScene.Entities
+                .Where(e => e.HasComponent<Camera>()).First().GetComponent<Camera>();
+
+            if (cameraComponent.AutoSetCameraSize)
+            {
+                cameraComponent.SetCameraBounds(Size.X, Size.Y);
+            }
 
             GameStateManager.Instance.OnLoad();
+
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            var currentScene = GameStateManager.Instance.GetScreen().GameScene;
+            spriteRenderer.Draw(currentScene, vertexArrayObject, shader, cameraComponent.gameCamera, indices.Length);
+
             GameStateManager.Instance.Draw();
+
+            SwapBuffers();
+            
 
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            // for all entities run update
+            // for all scripts run update
             base.OnUpdateFrame(e);
             GameStateManager.Instance.Update();
+            
 
         }
 
         protected override void OnResize(ResizeEventArgs e)
         {
             base.OnResize(e);
+
+            GL.Viewport(0, 0, Size.X, Size.Y);
+
+            if (cameraComponent.AutoSetCameraSize)
+                cameraComponent.SetCameraBounds(Size.X, Size.Y);
+            
         }
 
         protected override void OnUnload()

@@ -5,8 +5,14 @@ using Swordfish.ECS;
 
 namespace Swordfish.Core
 {
-    class Scene
+    /// <summary>
+    /// A class encapsulating the collection of entities for a gamestate.
+    /// </summary>
+    public class Scene
     {
+        /// <summary>
+        /// The list of all entities in the scene.
+        /// </summary>
         public List<Entity> Entities;
 
         public Scene()

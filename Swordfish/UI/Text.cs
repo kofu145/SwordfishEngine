@@ -17,7 +17,6 @@ namespace Swordfish.UI
     }
     public class Text
     {
-
     }
 
     public class Label : IComponent
@@ -36,11 +35,9 @@ namespace Swordfish.UI
 
         public void OnLoad()
         {
-
         }
         public void Update()
         {
-
         }
     }
 }

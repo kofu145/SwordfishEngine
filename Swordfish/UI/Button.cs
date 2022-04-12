@@ -15,13 +15,13 @@ namespace Swordfish.UI
             ROUNDED = 1,
             ROUND = 2,
         }
-        private int _w; // width
-        private int _h; // height
-        private int _x; // x position (top left)
-        private int _y; // y position (top left)
-        private string _title; // text in button
-        private TextStyle _textStyle; // style of text in button
-        private ButtonStyle _buttonStyle; // style of button
+        public readonly int _w; // width
+        public readonly int _h; // height
+        public readonly int _x; // x position (top left)
+        public readonly int _y; // y position (top left)
+        public readonly string _title; // text in button
+        public readonly TextStyle _textStyle; // style of text in button
+        public readonly ButtonStyle _buttonStyle; // style of button
 
         ///<summary>
         /// create context button with width, height, x position, y position and title
@@ -56,20 +56,16 @@ namespace Swordfish.UI
 
        
         public void onHover()
-        {
-            
+        { 
         }
         public void onClick()
         {
-
         }
         public void Update()
         {
-
         }
         public void OnLoad()
         {
-
         }
         
     }

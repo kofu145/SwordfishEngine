@@ -20,19 +20,15 @@ namespace Swordfish.UI
         }
         public void onHover()
         {
-
         }
         public void onClick()
         {
-
         }
         public void OnLoad()
-        {
-            
+        {   
         }
         public void Update()
         {
-
         }
     }
 }

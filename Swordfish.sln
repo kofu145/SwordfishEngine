@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swordfish", "Swordfish\Swordfish.csproj", "{A07EC771-A9DC-46E9-9F83-F940880976FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityTesting", "EntityTesting\EntityTesting.csproj", "{2AC5E407-2611-4521-BA0B-D44312E79D9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityTesting", "TestProjects\EntityTesting\EntityTesting.csproj", "{2AC5E407-2611-4521-BA0B-D44312E79D9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGameProject", "TestGameProject\TestGameProject.csproj", "{18806AEA-958B-49C0-AEFC-93F4E5D9BEDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGameProject", "TestProjects\TestGameProject\TestGameProject.csproj", "{18806AEA-958B-49C0-AEFC-93F4E5D9BEDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

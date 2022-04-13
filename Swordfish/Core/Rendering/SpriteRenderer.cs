@@ -21,6 +21,8 @@ namespace Swordfish.Core.Rendering
 
         public void Draw(Scene scene, int vertexArrayObject, Shader shader, GameCamera camera, int indicesLength)
         {
+           
+
 
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
@@ -31,6 +33,7 @@ namespace Swordfish.Core.Rendering
                 .Where(e => e.HasComponent<Transform>());
 
             foreach (var entity in spriteEntities) {
+                Console.WriteLine(entity.id);
                 var spriteComponent = entity.GetComponent<Sprite>();
                 var transformComponent = entity.GetComponent<Transform>();
 
@@ -45,7 +48,7 @@ namespace Swordfish.Core.Rendering
 
                 shader.SetMatrix4("model", model);
                 shader.SetMatrix4("view", camera.GetViewMatrix());
-                shader.SetMatrix4("projection", camera.GetViewMatrix());
+                shader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
 
                 GL.BindVertexArray(vertexArrayObject);

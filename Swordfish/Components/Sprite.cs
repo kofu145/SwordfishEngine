@@ -7,7 +7,7 @@ using Swordfish.Core.Rendering;
 
 namespace Swordfish.Components
 {
-    class Sprite : IComponent
+    public class Sprite : IComponent
     {
         private Texture texture;
 

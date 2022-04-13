@@ -17,17 +17,20 @@ namespace Swordfish.Core.Rendering
 
         public Matrix4 GetViewMatrix()
         {
-            return Matrix4.LookAt(new Vector3(0f, 0f, 1f), new Vector3(0f, 0f, -1f), new Vector3(0f, 1f, 0f));
+            return Matrix4.LookAt(new Vector3(0f, 0f, 10f), new Vector3(0f, 0f, -1f), new Vector3(0f, 1f, 0f));
         }
 
         public Matrix4 GetProjectionMatrix()
         {
+            
             return Matrix4.CreateOrthographicOffCenter
                 (
                     -WindowSize.X / 2 * Zoom, WindowSize.X / 2 * Zoom, // scaled minWidth/maxWidth
                     -WindowSize.Y / 2 * Zoom, WindowSize.Y / 2 * Zoom, // scaled minHeight/maxHeight
                     0.1f, 100.0f
                 );
+            
+            //return Matrix4.CreateOrthographicOffCenter(-400f, 400f, -300f, 300f, .1f, 100f);
         }
 
     }

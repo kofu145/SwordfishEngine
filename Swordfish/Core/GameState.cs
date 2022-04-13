@@ -16,7 +16,17 @@ namespace Swordfish.Core
         /// <summary>
         /// The main scene of the game state.
         /// </summary>
-        public abstract Scene GameScene { get; set; }
+        public Scene GameScene { get; private set; }
+
+        public GameState()
+        {
+            GameScene = new Scene();
+        }
+
+        public GameState(Scene scene)
+        {
+            GameScene = new Scene();
+        }
 
         /// <summary>
         /// Called on the initialization of the game state.

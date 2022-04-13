@@ -1,4 +1,5 @@
 ﻿using System;
+using Swordfish.Core;
 
 namespace TestGameProject
 {
@@ -6,7 +7,7 @@ namespace TestGameProject
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var game = new Game(800, 600, "Hello world!", new TestGameState());
         }
     }
 }

@@ -2,36 +2,45 @@
 using System.Collections.Generic;
 using System.Text;
 using Swordfish.Core;
+using Swordfish.ECS;
+using Swordfish.Components;
 
 namespace TestGameProject
 {
     class TestGameState : GameState
     {
-        public override Scene GameScene { get; set; }
 
-        public override void Draw()
-        {
-            throw new NotImplementedException();
-        }
 
         public override void Initialize()
         {
-            throw new NotImplementedException();
+            var cameraEntity = new Entity();
+            cameraEntity.AddComponent(new Camera());
+            cameraEntity.AddComponent(new Transform());
+            this.GameScene.Entities.Add(cameraEntity);
+
         }
 
         public override void OnLoad()
         {
-            throw new NotImplementedException();
+            var testEntity = new Entity();
+            testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png"));
+            testEntity.AddComponent(new Transform());
+            this.GameScene.Entities.Add(testEntity);
         }
 
         public override void OnUnload()
         {
-            throw new NotImplementedException();
+            
+        }
+
+        public override void Draw()
+        {
+
         }
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

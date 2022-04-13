@@ -6,7 +6,7 @@ using Swordfish.ECS;
 
 namespace Swordfish.Components
 {
-    class Transform : IComponent
+    public class Transform : IComponent
     {
         /// <summary>
         /// A Vector2 representing position. Format is x, y.

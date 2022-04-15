@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Swordfish.ECS;
-namespace Swordfish.UI
+namespace Swordfish.Components.UI
 {
     ///<summary>
     /// basic context button with width, height, x position, y position and title

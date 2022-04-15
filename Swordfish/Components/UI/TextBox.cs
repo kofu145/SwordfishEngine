@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Swordfish.ECS;
-namespace Swordfish.UI
+
+
+namespace Swordfish.Components.UI
 {
     public class TextBox : IComponent
     {

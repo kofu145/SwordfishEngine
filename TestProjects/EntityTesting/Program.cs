@@ -5,7 +5,7 @@ using Swordfish.ECS;
 using Swordfish.Scripting;
 using System.Threading;
 using System.Reflection;
-using Swordfish.UI;
+using Swordfish.Components.UI;
 namespace TestGameProject
 {
     // this is used for internal monitoring of the engine
@@ -105,33 +105,33 @@ namespace TestGameProject
         }
     }
 
-    class testGameState : IGameState
+    class testGameState : GameState
     {
         public testGameState()
         {
 
         }
-        public void Draw()
+        public override void Draw()
         {
           
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
             
         }
 
-        public void OnLoad()
+        public override void OnLoad()
         {
             
         }
 
-        public void OnUnload()
+        public override void OnUnload()
         {
             
         }
 
-        public void Update()
+        public override void Update()
         {
             
         }

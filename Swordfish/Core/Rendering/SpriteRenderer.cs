@@ -14,12 +14,69 @@ namespace Swordfish.Core.Rendering
 {
     internal class SpriteRenderer
     {
-        public SpriteRenderer()
+
+        private int vertexBufferObject;
+
+        private int vertexArrayObject;
+
+        private Shader shader;
+
+        private int elementBufferObject;
+
+        private Camera cameraComponent;
+
+        private readonly float[] quadVertices =
         {
-            
+            // Position         Texture coordinates
+             1.0f, 1.0f, 0.0f, 1.0f, 1.0f, // top right
+             1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
+             0.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom left
+             0.0f, 1.0f, 0.0f, 0.0f, 1.0f  // top left
+        };
+
+        private readonly uint[] indices =
+        {
+            // Note that indices start at 0!
+            0, 1, 3, // The first triangle will be the bottom-right half of the triangle
+            1, 2, 3  // Then the second will be the top-right half of the triangle
+        };
+
+        public SpriteRenderer(int width, int height)
+        {
+            vertexArrayObject = GL.GenVertexArray();
+            GL.BindVertexArray(vertexArrayObject);
+
+            vertexBufferObject = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
+            GL.BufferData(BufferTarget.ArrayBuffer, quadVertices.Length * sizeof(float), quadVertices, BufferUsageHint.StaticDraw);
+
+            elementBufferObject = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
+
+            shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
+
+            shader.Use();
+
+            var vertexLocation = shader.GetAttribLocation("aPosition");
+            GL.EnableVertexAttribArray(vertexLocation);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+
+            var texCoordLocation = shader.GetAttribLocation("aTexCoord");
+            GL.EnableVertexAttribArray(texCoordLocation);
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+
+            // get our camera
+            cameraComponent = GameStateManager.Instance.GetScreen().GameScene.Entities
+                .Where(e => e.HasComponent<Camera>()).First().GetComponent<Camera>();
+
+            if (cameraComponent.AutoSetCameraSize)
+            {
+                cameraComponent.SetCameraBounds(width, height);
+            }
         } 
 
-        public void Draw(Scene scene, int vertexArrayObject, Shader shader, GameCamera camera, int indicesLength)
+        public void Draw(Scene scene)
         {
            
 
@@ -27,6 +84,8 @@ namespace Swordfish.Core.Rendering
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            
+
 
             var spriteEntities = scene.Entities
                 .Where(e => e.HasComponent<Sprite>())
@@ -44,20 +103,34 @@ namespace Swordfish.Core.Rendering
                 // Order MUST be scale, rotate, translate.
                 model *= Matrix4.CreateScale(spriteComponent.Width, spriteComponent.Height, 0f);
                 model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
-                model *= Matrix4.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, 0f);
+                model *= Matrix4.CreateTranslation(transformComponent.Position.X - spriteComponent.Width / 2, transformComponent.Position.Y - spriteComponent.Height / 2, 0f);
 
                 shader.SetMatrix4("model", model);
-                shader.SetMatrix4("view", camera.GetViewMatrix());
-                shader.SetMatrix4("projection", camera.GetProjectionMatrix());
+                shader.SetMatrix4("view", cameraComponent.gameCamera.GetViewMatrix());
+                shader.SetMatrix4("projection", cameraComponent.gameCamera.GetProjectionMatrix());
 
 
                 GL.BindVertexArray(vertexArrayObject);
 
-                GL.DrawElements(PrimitiveType.Triangles, indicesLength, DrawElementsType.UnsignedInt, 0);
+                GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
 
             }
 
+        }
 
+        public void OnResize(int width, int height)
+        {
+            if (cameraComponent.AutoSetCameraSize)
+                cameraComponent.SetCameraBounds(width, height);
+        }
+
+        public void Dispose()
+        {
+            // Delete all the resources.
+            GL.DeleteBuffer(vertexBufferObject);
+            GL.DeleteVertexArray(vertexArrayObject);
+
+            GL.DeleteProgram(shader.Handle);
         }
     }
 }

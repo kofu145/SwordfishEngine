@@ -8,39 +8,16 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
 using Swordfish.ECS;
 using Swordfish.Components;
+using Swordfish.ImGui;
+using ImGuiNET;
 
 namespace Swordfish.Core.Rendering
 {
     internal class Window : GameWindow
     {
-
-        private readonly float[] quadVertices =
-        {
-            // Position         Texture coordinates
-             1.0f, 1.0f, 0.0f, 1.0f, 1.0f, // top right
-             1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
-             0.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom left
-             0.0f, 1.0f, 0.0f, 0.0f, 1.0f  // top left
-        };
-
-        private readonly uint[] indices =
-        {
-            // Note that indices start at 0!
-            0, 1, 3, // The first triangle will be the bottom-right half of the triangle
-            1, 2, 3  // Then the second will be the top-right half of the triangle
-        };
-
-        private int vertexBufferObject;
-
-        private int vertexArrayObject;
-
-        private Shader shader;
-
-        private Camera cameraComponent;
+        ImGuiController imGuiRenderer;
 
         private SpriteRenderer spriteRenderer;
-         
-        private int elementBufferObject;
 
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, IGameState initialGameState)
             : base(gameWindowSettings, nativeWindowSettings)
@@ -51,40 +28,11 @@ namespace Swordfish.Core.Rendering
         protected override void OnLoad()
         {
             base.OnLoad();
+
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-            vertexArrayObject = GL.GenVertexArray();
-            GL.BindVertexArray(vertexArrayObject);
-
-            vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, quadVertices.Length * sizeof(float), quadVertices, BufferUsageHint.StaticDraw);
-
-            elementBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
-
-            shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
-
-            shader.Use();
-
-            var vertexLocation = shader.GetAttribLocation("aPosition");
-            GL.EnableVertexAttribArray(vertexLocation);
-            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-
-            var texCoordLocation = shader.GetAttribLocation("aTexCoord");
-            GL.EnableVertexAttribArray(texCoordLocation);
-            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
-
-            // get our camera
-            cameraComponent = GameStateManager.Instance.GetScreen().GameScene.Entities
-                .Where(e => e.HasComponent<Camera>()).First().GetComponent<Camera>();
-
-            if (cameraComponent.AutoSetCameraSize)
-            {
-                cameraComponent.SetCameraBounds(Size.X, Size.Y);
-            }
-            this.spriteRenderer = new SpriteRenderer();
+            imGuiRenderer = new ImGuiController(Size.X, Size.Y);
+            this.spriteRenderer = new SpriteRenderer(Size.X, Size.Y);
 
             GameStateManager.Instance.OnLoad();
 
@@ -93,9 +41,15 @@ namespace Swordfish.Core.Rendering
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            imGuiRenderer.Update(this, (float)e.Time);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
             var currentScene = GameStateManager.Instance.GetScreen().GameScene;
-            spriteRenderer.Draw(currentScene, vertexArrayObject, shader, cameraComponent.gameCamera, indices.Length);
+            spriteRenderer.Draw(currentScene);
+
+            ImGuiNET.ImGui.ShowDemoWindow();
+            imGuiRenderer.Render();
+            ImGuiUtil.CheckGLError("End of frame");
 
             GameStateManager.Instance.Draw();
 
@@ -114,15 +68,28 @@ namespace Swordfish.Core.Rendering
 
         }
 
+        protected override void OnTextInput(TextInputEventArgs e)
+        {
+            base.OnTextInput(e);
+            imGuiRenderer.PressChar((char)e.Unicode);
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            imGuiRenderer.MouseScroll(e.Offset);
+        }
+
         protected override void OnResize(ResizeEventArgs e)
         {
             base.OnResize(e);
 
             GL.Viewport(0, 0, Size.X, Size.Y);
 
-            if (cameraComponent.AutoSetCameraSize)
-                cameraComponent.SetCameraBounds(Size.X, Size.Y);
-            
+            spriteRenderer.OnResize(Size.X, Size.Y);
+            imGuiRenderer.WindowResized(ClientSize.X, ClientSize.Y);
+
+
         }
 
         protected override void OnUnload()
@@ -133,11 +100,8 @@ namespace Swordfish.Core.Rendering
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 
-            // Delete all the resources.
-            GL.DeleteBuffer(vertexBufferObject);
-            GL.DeleteVertexArray(vertexArrayObject);
-
-            GL.DeleteProgram(shader.Handle);
+            spriteRenderer.Dispose();
+            
             GameStateManager.Instance.OnUnload();
         }
 

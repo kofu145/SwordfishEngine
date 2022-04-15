@@ -6,6 +6,42 @@ using Swordfish.Scripting;
 using System.Threading;
 using System.Reflection;
 using Swordfish.Components.UI;
+using Swordfish.Components;
+using Swordfish.Core.Rendering;
+namespace EntityTesting
+{
+    class Program
+    {
+        public static GameState gameState = new TestGameState();
+        public static Game testGame;
+        static void Main(String[] args)
+        {
+
+            Entity _camera = new Entity();
+            _camera.AddComponent(new Camera());
+            gameState.GameScene.Entities.Add(_camera);
+            createWindow();
+
+        }
+        static void createWindow()
+        {
+
+            testGame = new Game(1280, 720, "Test client", gameState);
+
+        }
+    }
+}
+
+
+
+
+
+
+
+/*
+ * 
+ *  OLD TEST CLIENT
+ *  
 namespace TestGameProject
 {
     // this is used for internal monitoring of the engine
@@ -105,35 +141,7 @@ namespace TestGameProject
         }
     }
 
-    class testGameState : GameState
-    {
-        public testGameState()
-        {
-
-        }
-        public override void Draw()
-        {
-          
-        }
-
-        public override void Initialize()
-        {
-            
-        }
-
-        public override void OnLoad()
-        {
-            
-        }
-
-        public override void OnUnload()
-        {
-            
-        }
-
-        public override void Update()
-        {
-            
-        }
-    }
+   
 }
+
+*/

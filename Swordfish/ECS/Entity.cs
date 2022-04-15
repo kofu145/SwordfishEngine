@@ -40,6 +40,17 @@ namespace Swordfish.ECS
             this.components = new ConcurrentDictionary<Type, IComponent>();
         }
 
+        /// Initializes a new entity.
+        /// </summary>
+        /// <param name="component">The component for this entity.</param>
+        public Entity(IComponent component)
+        {
+            this.id = Guid.NewGuid();
+            this.components = new ConcurrentDictionary<Type, IComponent>();
+            this.components.TryAdd(component.GetType(), component);
+
+        }
+
         /// <summary>
         /// Grabs a specified type of component from the entity.
         /// </summary>
@@ -73,10 +84,11 @@ namespace Swordfish.ECS
             return components.ContainsKey(typeof(T));
         }
 
-        // doesn't show anyway so not gonna bother documenting this one
-        public void AddComponent<T>(T component) where T : IComponent
+        // Add a component. Returns the current entity for chain-adding.
+        public Entity AddComponent<T>(T component) where T : IComponent
         {
             components[typeof(T)] = component;
+            return this;
         }
 
     }

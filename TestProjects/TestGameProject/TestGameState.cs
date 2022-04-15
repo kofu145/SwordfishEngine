@@ -4,6 +4,7 @@ using System.Text;
 using Swordfish.Core;
 using Swordfish.ECS;
 using Swordfish.Components;
+using Swordfish.Components.UI;
 
 namespace TestGameProject
 {
@@ -26,6 +27,11 @@ namespace TestGameProject
             testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png"));
             testEntity.AddComponent(new Transform());
             this.GameScene.Entities.Add(testEntity);
+
+            var textTestEntity = new Entity();
+            textTestEntity.AddComponent(new Label("Hello         World", 1f));
+            textTestEntity.AddComponent(new Transform());
+            this.GameScene.Entities.Add(textTestEntity);
         }
 
         public override void OnUnload()

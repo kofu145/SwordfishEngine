@@ -18,16 +18,21 @@ namespace Swordfish.Core.Rendering
 
         private readonly Dictionary<string, int> uniformLocations;
 
-        public Shader(string vertPath, string fragPath)
+        public Shader(string vertPath, string fragPath, bool isFilePath = true)
         {
+            // allow usage of pure string shaders
+            var shaderSource = vertPath;
+            if (isFilePath)
+                shaderSource = File.ReadAllText(vertPath);
             // Bind vertex shader to empty shader and compile
-            var shaderSource = File.ReadAllText(vertPath);
             var vertexShader = GL.CreateShader(ShaderType.VertexShader);
             GL.ShaderSource(vertexShader, shaderSource);
             CompileShader(vertexShader);
 
             // Bind fragment shader to empty shader and compile
-            shaderSource = File.ReadAllText(fragPath);
+            shaderSource = fragPath;
+            if (isFilePath)
+                shaderSource = File.ReadAllText(fragPath);
             var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
             GL.ShaderSource(fragmentShader, shaderSource);
             CompileShader(fragmentShader);
@@ -63,6 +68,7 @@ namespace Swordfish.Core.Rendering
 
 
         }
+
 
         private static void CompileShader(int shader)
         {

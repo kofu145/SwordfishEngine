@@ -2,21 +2,26 @@
 using System.Collections.Generic;
 using System.Text;
 using Swordfish.ECS;
+using Swordfish.Core.Rendering;
 
 namespace Swordfish.Components.UI
 {
     public class Label : IComponent
     {
         private TextStyle _style;
-        private string _text;
-        public Label(string text)
+        public string Text;
+        public float FontSize;
+
+        public Label(string text, float fontSize)
         {
-            _text = text;
+            Text = text;
+            FontSize = fontSize;
         }
-        public Label(string text, TextStyle style)
+        public Label(string text, TextStyle style, float fontSize)
         {
-            _text = text;
+            Text = text;
             _style = style;
+            FontSize = fontSize;
         }
 
         public void OnLoad()

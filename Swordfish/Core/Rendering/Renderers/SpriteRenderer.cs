@@ -10,20 +10,22 @@ using Swordfish.ECS;
 using Swordfish.Components;
 using System.Linq;
 
-namespace Swordfish.Core.Rendering
+namespace Swordfish.Core.Rendering.Renderers
 {
     internal class SpriteRenderer
     {
 
         private int vertexBufferObject;
-
         private int vertexArrayObject;
+
+        private int vertexLocation;
+        private int texCoordLocation;
 
         private Shader shader;
 
         private int elementBufferObject;
 
-        private Camera cameraComponent;
+        
 
         private readonly float[] quadVertices =
         {
@@ -66,25 +68,18 @@ namespace Swordfish.Core.Rendering
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
 
-            // get our camera
-            cameraComponent = GameStateManager.Instance.GetScreen().GameScene.Entities
-                .Where(e => e.HasComponent<Camera>()).First().GetComponent<Camera>();
-
-            if (cameraComponent.AutoSetCameraSize)
-            {
-                cameraComponent.SetCameraBounds(width, height);
-            }
+            
         } 
 
-        public void Draw(Scene scene)
+        public void Draw(Scene scene, GameCamera camera)
         {
            
-
-
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
 
 
             var spriteEntities = scene.Entities
@@ -92,7 +87,7 @@ namespace Swordfish.Core.Rendering
                 .Where(e => e.HasComponent<Transform>());
 
             foreach (var entity in spriteEntities) {
-                Console.WriteLine(entity.id);
+                // Console.WriteLine(entity.id);
                 var spriteComponent = entity.GetComponent<Sprite>();
                 var transformComponent = entity.GetComponent<Transform>();
 
@@ -106,8 +101,8 @@ namespace Swordfish.Core.Rendering
                 model *= Matrix4.CreateTranslation(transformComponent.Position.X - spriteComponent.Width / 2, transformComponent.Position.Y - spriteComponent.Height / 2, 0f);
 
                 shader.SetMatrix4("model", model);
-                shader.SetMatrix4("view", cameraComponent.gameCamera.GetViewMatrix());
-                shader.SetMatrix4("projection", cameraComponent.gameCamera.GetProjectionMatrix());
+                shader.SetMatrix4("view", camera.GetViewMatrix());
+                shader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
 
                 GL.BindVertexArray(vertexArrayObject);
@@ -116,12 +111,6 @@ namespace Swordfish.Core.Rendering
 
             }
 
-        }
-
-        public void OnResize(int width, int height)
-        {
-            if (cameraComponent.AutoSetCameraSize)
-                cameraComponent.SetCameraBounds(width, height);
         }
 
         public void Dispose()

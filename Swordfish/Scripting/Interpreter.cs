@@ -9,12 +9,22 @@ using Swordfish.Components.UI;
 using Swordfish.Components;
 using System.Threading;
 using Microsoft.Scripting.Hosting;
+using OpenTK.Mathematics;
+
 namespace Swordfish.Scripting
 {
     // internal class for python commands given by the engine
     public class SystemPy
     {
-       public IComponent getComponent(String type, Entity e)
+       public Vector3 newVec3(float x, float y, float z)
+        {
+            return new Vector3(x, y, z);
+        }
+        public Vector2 newVec2(float x, float y)
+        {
+            return new Vector2(x, y);
+        }
+        public IComponent getComponent(String type, Entity e)
         {
             switch(type)
             {
@@ -23,9 +33,9 @@ namespace Swordfish.Scripting
 
                 case "Label":
                     return e.GetComponent<Label>();
-                    break;
-                case "Text":
-                    return null; // e.GetComponent<Text>();
+
+                case "Transform":
+                    return  e.GetComponent<Transform>();
 
                 case "Camera":
                     return e.GetComponent<TextBox>();
@@ -46,10 +56,8 @@ namespace Swordfish.Scripting
         // singleton interpreter class
         private static Interpreter instance;
         // create empty list for iteration
-        private LinkedList<GameScript> globalScripts = new LinkedList<GameScript>();
-        private LinkedList<GameScript> entityScripts = new LinkedList<GameScript>();
-        private bool removeScript;
-        private GameScript removedScript;
+        private static LinkedList<GameScript> globalScripts = new LinkedList<GameScript>();
+        private static LinkedList<GameScript> entityScripts = new LinkedList<GameScript>();
         // create python runtime engine
         private static ScriptEngine pyInterpreter = Python.CreateEngine();
         // this will be called when the interpreter is created but can be moved to a new function onInit() or similar later
@@ -66,11 +74,15 @@ namespace Swordfish.Scripting
             }
         }
         // run scripts on every frame, also clear inactive entities
+        // todo make this multi threaded
         public void Update()
         {
-            new Thread(updateThread).Start();
+
+            updateThread();
+            
         }
-        public void updateThread()
+
+        public static void updateThread()
         {
             foreach (GameScript _script in globalScripts)
             {
@@ -151,7 +163,7 @@ namespace Swordfish.Scripting
                 }
             }
             // instant legacy code, probably do this once and then just extend this scope every time we load a script rather than doing this every time
-            internal void addVars(ScriptScope e)
+            internal static void addVars(ScriptScope e)
             {
             e.SetVariable("System", sys);
 

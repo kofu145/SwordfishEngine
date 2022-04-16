@@ -11,6 +11,7 @@ using Swordfish.Components;
 using Swordfish.ImGui;
 using ImGuiNET;
 using Swordfish.Core.Rendering.Renderers;
+using Swordfish.Scripting;
 
 namespace Swordfish.Core.Rendering
 {
@@ -64,7 +65,7 @@ namespace Swordfish.Core.Rendering
             var currentScene = GameStateManager.Instance.GetScreen().GameScene;
             spriteRenderer.Draw(currentScene, cameraComponent.gameCamera);
             textRenderer.Render(currentScene, charTexture, cameraComponent.gameCamera);
-
+            Interpreter.Instance.Update();
             //ImGuiNET.ImGui.ShowDemoWindow();
             //imGuiRenderer.Render();
             //ImGuiUtil.CheckGLError("End of frame");

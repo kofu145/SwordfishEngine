@@ -78,8 +78,8 @@ namespace Swordfish.Core.Rendering.Renderers
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
+            //GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
+            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
 
 
             var spriteEntities = scene.Entities
@@ -97,9 +97,9 @@ namespace Swordfish.Core.Rendering.Renderers
                 var model = Matrix4.Identity;
                 // Order MUST be scale, rotate, translate.
                 model *= Matrix4.CreateScale(spriteComponent.Width, spriteComponent.Height, 0f);
-                model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
+                //model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(90f));
                 model *= Matrix4.CreateTranslation(transformComponent.Position.X - spriteComponent.Width / 2, transformComponent.Position.Y - spriteComponent.Height / 2, 0f);
-
+                model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
                 shader.SetMatrix4("model", model);
                 shader.SetMatrix4("view", camera.GetViewMatrix());
                 shader.SetMatrix4("projection", camera.GetProjectionMatrix());

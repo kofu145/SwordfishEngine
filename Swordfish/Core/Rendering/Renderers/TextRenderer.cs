@@ -157,7 +157,7 @@ namespace Swordfish.Core.Rendering.Renderers
                     shader.SetMatrix4("view", camera.GetViewMatrix());
                     shader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
-                    shader.SetVector3("textColor", new Vector3(0.5f, 0.8f, 0.2f));
+                    shader.SetVector3("textColor", labelComponent.Color);
 
                     shader.SetInt("texture0", 0);
                     // Render glyph texture over quad

@@ -9,9 +9,9 @@ namespace Swordfish.Components
     public class Transform : IComponent
     {
         /// <summary>
-        /// A Vector2 representing position. Format is x, y.
+        /// A Vector2 representing position. Format is x, y, z. Z determines Z ordering.
         /// </summary>
-        public Vector2 Position;
+        public Vector3 Position;
 
         /// <summary>
         /// A Vector3 representing rotation. NOTE: in 2D, you should only be using the Z coordinate.
@@ -28,7 +28,7 @@ namespace Swordfish.Components
         /// </summary>
         public Transform()
         {
-            this.Position = new Vector2(0, 0);
+            this.Position = new Vector3(0, 0, 0);
             this.Rotation = new Vector3(0, 0, 0);
             this.Scale = new Vector2(1f, 1f);
         }
@@ -38,7 +38,7 @@ namespace Swordfish.Components
         /// </summary>
         /// <param name="position">A Vector2 representing position.</param>
         /// <param name="rotation">A Vector3 resresenting rotation.</param>
-        public Transform(Vector2 position, Vector3 rotation, Vector2 scale)
+        public Transform(Vector3 position, Vector3 rotation, Vector2 scale)
         {
             this.Position = position;
             this.Rotation = rotation;
@@ -53,8 +53,8 @@ namespace Swordfish.Components
         /// <param name="rx">The x value for rotation.</param>
         /// <param name="ry">The y value for rotation.</param>
         /// <param name="rz">The z value for rotation.</param>
-        public Transform(float x, float y, float rx, float ry, float rz, float sx, float sy) :
-            this(new Vector2(x, y), new Vector3(rx, ry, rz), new Vector2(sx, sy))
+        public Transform(float x, float y, float z, float rx, float ry, float rz, float sx, float sy) :
+            this(new Vector3(x, y, z), new Vector3(rx, ry, rz), new Vector2(sx, sy))
         { }
 
         public void OnLoad()

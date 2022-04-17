@@ -60,6 +60,7 @@ namespace Swordfish.Core.Rendering
             imGuiRenderer.Update(this, (float)e.Time);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
             var currentScene = GameStateManager.Instance.GetScreen().GameScene;
+            spriteRenderer.RenderBackground(currentScene, cameraComponent.gameCamera, Size.X, Size.Y);
             spriteRenderer.Draw(currentScene, cameraComponent.gameCamera);
             textRenderer.Render(currentScene, charTexture, cameraComponent.gameCamera);
             ImGuiNET.ImGui.ShowDemoWindow();

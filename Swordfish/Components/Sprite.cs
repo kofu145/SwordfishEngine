@@ -20,7 +20,7 @@ namespace Swordfish.Components
         /// <param name="textureFilePath">The filepath to the image you are using for your sprite.</param>
         public Sprite(string textureFilePath)
         {
-            this.texture = Texture.LoadFromFile(textureFilePath);
+            this.texture = Texture.LoadFromFile(textureFilePath, TextureFilter.nearest);
         }
         public void OnLoad()
         {

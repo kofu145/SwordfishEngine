@@ -27,7 +27,7 @@ namespace Swordfish.Core.Rendering
                 (
                     -WindowSize.X / 2 * Zoom, WindowSize.X / 2 * Zoom, // scaled minWidth/maxWidth
                     -WindowSize.Y / 2 * Zoom, WindowSize.Y / 2 * Zoom, // scaled minHeight/maxHeight
-                    0.1f, 100.0f
+                    -100f, 100.0f
                 );
             
             //return Matrix4.CreateOrthographicOffCenter(-400f, 400f, -300f, 300f, .1f, 100f);

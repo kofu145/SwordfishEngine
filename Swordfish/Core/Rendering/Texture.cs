@@ -5,6 +5,12 @@ using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace Swordfish.Core.Rendering
 {
+    public enum TextureFilter
+    {
+        linear = 0,
+        nearest = 1
+    }
+
     /// <summary>
     /// This entire class is constructed from example snippets
     /// Creates a texture class to handle loading and managing textures.
@@ -16,7 +22,7 @@ namespace Swordfish.Core.Rendering
         public readonly int Width;
         public readonly int Height;
 
-        public static Texture LoadFromFile(string path)
+        public static Texture LoadFromFile(string path, TextureFilter texFilter)
         {
             int handle = GL.GenTexture();
             int width;
@@ -47,8 +53,26 @@ namespace Swordfish.Core.Rendering
                     PixelType.UnsignedByte,
                     data.Scan0);
             }
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+
+            switch(texFilter)
+            {
+                case TextureFilter.linear:
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+                    break;
+
+                case TextureFilter.nearest:
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+                    break;
+
+                default:
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+                    break;
+            }
+            
+            
 
             // Maybe set texturewrap mode to clamp in future?
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);

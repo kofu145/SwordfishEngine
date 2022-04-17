@@ -25,7 +25,43 @@ namespace Swordfish.Core.Rendering.Renderers
 
         private int elementBufferObject;
 
-        
+        private string vertShader = @"#version 330 core
+
+        layout(location = 0) in vec3 aPosition;
+
+        layout(location = 1) in vec2 aTexCoord;
+        out vec2 texCoord;
+
+        //uniform mat4 u_MVP;
+
+        uniform mat4 model;
+        uniform mat4 view;
+        uniform mat4 projection;
+
+        void main(void)
+        {
+            texCoord = aTexCoord;
+
+            gl_Position = vec4(aPosition, 1.0) * model * view * projection;
+        }";
+
+        private string fragShader = @"#version 330
+
+        out vec4 outputColor;
+
+        in vec2 texCoord;
+
+        uniform float alpha_threshold;
+        uniform sampler2D texture0;
+
+        void main()
+        {
+            outputColor = texture(texture0, texCoord);
+            
+            if(outputColor.a <= alpha_threshold)
+                discard;
+
+        }";
 
         private readonly float[] quadVertices =
         {
@@ -56,7 +92,7 @@ namespace Swordfish.Core.Rendering.Renderers
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
-            shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
+            shader = new Shader(vertShader, fragShader, false);
 
             shader.Use();
 
@@ -75,8 +111,10 @@ namespace Swordfish.Core.Rendering.Renderers
         {
            
             GL.Enable(EnableCap.DepthTest);
+            //GL.Enable(EnableCap.)
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            
 
             //GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
             //GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
@@ -96,14 +134,25 @@ namespace Swordfish.Core.Rendering.Renderers
 
                 var model = Matrix4.Identity;
                 // Order MUST be scale, rotate, translate.
-                model *= Matrix4.CreateScale(spriteComponent.Width, spriteComponent.Height, 0f);
-                //model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(90f));
-                model *= Matrix4.CreateTranslation(transformComponent.Position.X - spriteComponent.Width / 2, transformComponent.Position.Y - spriteComponent.Height / 2, 0f);
+                
+                model *= Matrix4.CreateScale(spriteComponent.Width * transformComponent.Scale.X, spriteComponent.Height * transformComponent.Scale.Y, 0f);
+
+                model *= Matrix4.CreateTranslation(spriteComponent.Width * transformComponent.Scale.X / -2, spriteComponent.Height * transformComponent.Scale.Y / -2, 0f);
                 model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
+                model *= Matrix4.CreateTranslation(spriteComponent.Width * transformComponent.Scale.X / 2, spriteComponent.Height * transformComponent.Scale.Y / 2, 0f);
+                model *= Matrix4.CreateTranslation(
+                    transformComponent.Position.X + spriteComponent.Width * transformComponent.Scale.X / -2,
+                    transformComponent.Position.Y + spriteComponent.Height * transformComponent.Scale.Y / -2,
+                    transformComponent.Position.Z
+                );
+
+
+
                 shader.SetMatrix4("model", model);
                 shader.SetMatrix4("view", camera.GetViewMatrix());
                 shader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
+                shader.SetFloat("alpha_threshold", .5f);
 
                 GL.BindVertexArray(vertexArrayObject);
 
@@ -111,6 +160,36 @@ namespace Swordfish.Core.Rendering.Renderers
 
             }
 
+
+        }
+
+        public void RenderBackground(Scene scene, GameCamera camera, int width, int height)
+        {
+            if (scene.HasBackgroundImageSet())
+            {
+                GL.Enable(EnableCap.DepthTest);
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+                // set background image
+                scene.BindTexture(TextureUnit.Texture0);
+                shader.Use();
+
+                var model = Matrix4.Identity;
+                // Order MUST be scale, rotate, translate.
+                model *= Matrix4.CreateScale(width, height, 0f);
+                model *= Matrix4.CreateTranslation(-width / 2, -height / 2, -10f);
+                //model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
+                
+                
+                shader.SetMatrix4("model", model);
+                shader.SetMatrix4("view", camera.GetViewMatrix());
+                shader.SetMatrix4("projection", camera.GetProjectionMatrix());
+                shader.SetFloat("alpha_threshold", .5f);
+                GL.BindVertexArray(vertexArrayObject);
+
+                GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+            }
+            
         }
 
         public void Dispose()

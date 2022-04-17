@@ -7,7 +7,8 @@ namespace TestGameProject
     {
         static void Main(string[] args)
         {
-            var game = new Game(800, 600, "Hello world!", new TestGameState());
+            var game = new Game(800, 600, "Hello Washingamers!", new TestGameState());
+
         }
     }
 }

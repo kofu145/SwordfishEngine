@@ -13,11 +13,8 @@ namespace Swordfish.Core.Rendering
     /// </summary>
     internal class Shader
     {
-
         public readonly int Handle;
-
         private readonly Dictionary<string, int> uniformLocations;
-
         public Shader(string vertPath, string fragPath, bool isFilePath = true)
         {
             // allow usage of pure string shaders

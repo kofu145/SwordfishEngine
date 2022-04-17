@@ -10,9 +10,7 @@ namespace Swordfish.Core
         /// The singleton instance of the GameStateManager.
         /// </summary>
         private static GameStateManager instance;
-
         private Stack<IGameState> screens = new Stack<IGameState>();
-
         // Singleton Pattern Logic
         public static GameStateManager Instance
         {
@@ -25,7 +23,6 @@ namespace Swordfish.Core
                 return instance;
             }
         }
-
         /// <summary>
         /// Adds a screen to the top of the stack.
         /// </summary>
@@ -36,24 +33,18 @@ namespace Swordfish.Core
             {
                 // add screen to the stack
                 screens.Push(screen);
-
                 /*
                 if (content != null)
                 {
                     screens.Peek().LoadContent(content);
                 }*/
-
                 screens.Peek().Initialize();
-
-
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
         }
-
         /// <summary>
         /// Returns the current rendering screen at the top of the stack.
         /// </summary>
@@ -70,7 +61,6 @@ namespace Swordfish.Core
             }
             return null;
         }
-
         /// <summary>
         /// Removes the top screen (gamestate) from the stack.
         /// </summary>
@@ -89,7 +79,6 @@ namespace Swordfish.Core
                 }
             }
         }
-
         /// <summary>
         /// Clears the entire stack of gamestates.
         /// </summary>
@@ -97,7 +86,6 @@ namespace Swordfish.Core
         {
             screens.Clear();
         }
-
         /// <summary>
         /// Purges all screens from the stack, and adds a new one.
         /// </summary>
@@ -107,7 +95,6 @@ namespace Swordfish.Core
             ClearScreens();
             AddScreen(screen);
         }
-
         /// <summary>
         /// Updates the top screen of the stack.
         /// </summary>
@@ -119,7 +106,6 @@ namespace Swordfish.Core
 
             }
         }
-
         /// <summary>
         /// Renders the top screen of the stack.
         /// </summary>
@@ -130,7 +116,6 @@ namespace Swordfish.Core
                 screens.Peek().Draw();
             }
         }
-
         /// <summary>
         /// Calls OnLoad methods for all screens when loading.
         /// </summary>
@@ -141,7 +126,6 @@ namespace Swordfish.Core
                 state.OnLoad();
             }
         }
-
         /// <summary>
         /// Calls OnUnload methods for all screens when unloading.
         /// </summary>
@@ -152,8 +136,5 @@ namespace Swordfish.Core
                 state.OnUnload();
             }
         }
-
-
-
     }
 }

@@ -22,7 +22,6 @@ namespace Swordfish.Components.UI
         public readonly string _title; // text in button
         public readonly TextStyle _textStyle; // style of text in button
         public readonly ButtonStyle _buttonStyle; // style of button
-
         ///<summary>
         /// create context button with width, height, x position, y position and title
         ///</summary>
@@ -53,8 +52,6 @@ namespace Swordfish.Components.UI
             _buttonStyle = k;
             _textStyle = z;
         }
-
-       
         public void onHover()
         { 
         }
@@ -66,7 +63,6 @@ namespace Swordfish.Components.UI
         }
         public void OnLoad()
         {
-        }
-        
+        }   
     }
 }

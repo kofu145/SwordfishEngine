@@ -80,13 +80,13 @@ namespace Swordfish.Scripting
         // todo make this multi threaded
         public void Update()
         {
+            //todo: thread for every script
             while (true)
             {
                 updateThread();
                 UpdateHandle.WaitOne();
             }
         }
-
         public static void updateThread()
         {
             foreach (GameScript _script in globalScripts)
@@ -96,14 +96,10 @@ namespace Swordfish.Scripting
                 /* create scope using global vars */
                 _script.script.Execute(scope);
             }
-
             foreach (GameScript _script in entityScripts)
             {
-
                 var scope = pyInterpreter.CreateScope();
-
                 var currentScreen = GameStateManager.Instance.GetScreen();
-
                 foreach (Guid id in _script.entityID)
                 {
                     int z = 0;
@@ -121,7 +117,6 @@ namespace Swordfish.Scripting
                     _script.script.Execute(scope);             
             }
         }
-
             // returns true if script is successfully created
             public bool createScript(string internalFilePath)
             {
@@ -140,7 +135,6 @@ namespace Swordfish.Scripting
             // usage: createScript("filepath", create new Entity[numOfAttachedEnts] { ents } )
             public bool createScript(string internalFilePath, Entity[] e)
             {
-
                 try
                 {
                     List<Guid> guids = new List<Guid>();
@@ -154,7 +148,6 @@ namespace Swordfish.Scripting
                     Console.WriteLine(Exc.ToString());
                     return false;
                 }
-
                 return true;
             }
             // this should be called BEFORE every update() call to make sure nothing is updated after a scene change
@@ -171,7 +164,6 @@ namespace Swordfish.Scripting
             internal static void addVars(ScriptScope e)
             {
             e.SetVariable("System", sys);
-
             }
         }
     }

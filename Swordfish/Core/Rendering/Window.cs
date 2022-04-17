@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using OpenTK.Graphics.OpenGL4;
@@ -18,6 +19,8 @@ namespace Swordfish.Core.Rendering
 {
     internal class Window : GameWindow
     {
+        Thread pyThread;
+
         ImGuiController imGuiRenderer;
 
         private SpriteRenderer spriteRenderer;
@@ -37,6 +40,9 @@ namespace Swordfish.Core.Rendering
 
         protected override void OnLoad()
         {
+
+            pyThread = new Thread(Interpreter.Instance.Update);
+            pyThread.Start();
             base.OnLoad();
 
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -71,8 +77,7 @@ namespace Swordfish.Core.Rendering
             ImGuiNET.ImGui.ShowDemoWindow();
             imGuiRenderer.Render();
             ImGuiUtil.CheckGLError("End of frame");
-            Interpreter.Instance.Update();
-
+            Interpreter.UpdateHandle.Set();
             GameStateManager.Instance.Draw();
 
             SwapBuffers();

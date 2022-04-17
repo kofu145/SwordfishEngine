@@ -52,6 +52,9 @@ namespace Swordfish.Scripting
     }
     public class Interpreter
     {
+        // thread update handle
+        public static EventWaitHandle UpdateHandle = new EventWaitHandle(true, EventResetMode.AutoReset);
+        //python functions to pass through to interpreter
         private static SystemPy sys = new SystemPy();
         // singleton interpreter class
         private static Interpreter instance;
@@ -77,9 +80,11 @@ namespace Swordfish.Scripting
         // todo make this multi threaded
         public void Update()
         {
-
-            updateThread();
-            
+            while (true)
+            {
+                updateThread();
+                UpdateHandle.WaitOne();
+            }
         }
 
         public static void updateThread()

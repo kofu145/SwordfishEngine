@@ -18,13 +18,13 @@ namespace Swordfish.Core.Rendering
         public int Advance { get; set; }
     }
 
-    internal class CharTexture
+    internal class FontTexture
     {
         Library ftLibrary;
 
         public Dictionary<uint, Character> characters = new Dictionary<uint, Character>();
 
-        public CharTexture(TextureUnit texUnit, string font="C:/Windows/Fonts/arial.ttf")
+        public FontTexture(TextureUnit texUnit, string font)
         {
             ftLibrary = new Library();
 

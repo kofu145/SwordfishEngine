@@ -22,8 +22,8 @@ namespace Swordfish.Core.Rendering
         Thread pyThread;
         ImGuiController imGuiRenderer;
         private SpriteRenderer spriteRenderer;
-        private CharTexture charTexture;
         private TextRenderer textRenderer;
+        private BackgroundRenderer backgroundRenderer;
         private Camera cameraComponent;
 
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, IGameState initialGameState)
@@ -39,8 +39,8 @@ namespace Swordfish.Core.Rendering
             base.OnLoad();
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             imGuiRenderer = new ImGuiController(Size.X, Size.Y);
+            this.backgroundRenderer = new BackgroundRenderer(Size.X, Size.Y);
             this.spriteRenderer = new SpriteRenderer(Size.X, Size.Y);
-            this.charTexture = new CharTexture(TextureUnit.Texture0);
             this.textRenderer = new TextRenderer();
             // get our camera
             cameraComponent = GameStateManager.Instance.GetScreen().GameScene.Entities
@@ -60,9 +60,11 @@ namespace Swordfish.Core.Rendering
             imGuiRenderer.Update(this, (float)e.Time);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
             var currentScene = GameStateManager.Instance.GetScreen().GameScene;
-            spriteRenderer.RenderBackground(currentScene, cameraComponent.gameCamera, Size.X, Size.Y);
+            //spriteRenderer.RenderBackground(currentScene, cameraComponent.gameCamera, Size.X, Size.Y);
+            backgroundRenderer.Render(currentScene, cameraComponent.gameCamera, Size.X, Size.Y);
+            
             spriteRenderer.Draw(currentScene, cameraComponent.gameCamera);
-            textRenderer.Render(currentScene, charTexture, cameraComponent.gameCamera);
+            textRenderer.Render(currentScene, cameraComponent.gameCamera);
             ImGuiNET.ImGui.ShowDemoWindow();
             imGuiRenderer.Render();
             ImGuiUtil.CheckGLError("End of frame");

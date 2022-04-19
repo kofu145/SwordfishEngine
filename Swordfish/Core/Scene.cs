@@ -4,6 +4,7 @@ using System.Text;
 using Swordfish.ECS;
 using Swordfish.Core.Rendering;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 
 namespace Swordfish.Core
 {
@@ -29,12 +30,17 @@ namespace Swordfish.Core
 
         internal void BindTexture(TextureUnit textureUnit)
         {
-            this.backgroundTexture.Use(textureUnit);
+            backgroundTexture.Use(textureUnit);
         }
 
         internal int GetTextureHandle()
         {
-            return this.backgroundTexture.Handle;
+            return backgroundTexture.Handle;
+        }
+
+        internal Vector2 GetBgDimensions()
+        {
+            return new Vector2(backgroundTexture.Width, backgroundTexture.Height);
         }
 
         public bool HasBackgroundImageSet()

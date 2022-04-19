@@ -94,7 +94,7 @@ namespace Swordfish.Core.Rendering.Renderers
 
         }
 
-        public void Render(Scene scene, CharTexture charTexture, GameCamera camera)
+        public void Render(Scene scene, GameCamera camera)
         {
             GL.Disable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
@@ -114,6 +114,8 @@ namespace Swordfish.Core.Rendering.Renderers
 
                 GL.ActiveTexture(TextureUnit.Texture0);
                 GL.BindVertexArray(vertexArrayObject);
+
+                var charTexture = labelComponent.fontLibrary.fontTexture;
 
                 // initial for loop to grab bitmap length for full string (for centering)
                 foreach(var c in labelComponent.Text)

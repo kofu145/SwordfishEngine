@@ -1,26 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using OpenTK.Windowing.Desktop;
+using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Swordfish.ECS;
 using Swordfish.Components;
-using System.Linq;
-using OpenTK.Audio;
 
 namespace Swordfish.Core.Rendering.Renderers
 {
-    internal class SpriteRenderer
+    class BackgroundRenderer
     {
-
         private int vertexBufferObject;
         private int vertexArrayObject;
-
-        private int vertexLocation;
-        private int texCoordLocation;
 
         private Shader shader;
 
@@ -81,7 +74,7 @@ namespace Swordfish.Core.Rendering.Renderers
             1, 2, 3  // Then the second will be the top-right half of the triangle
         };
 
-        public SpriteRenderer(int width, int height)
+        public BackgroundRenderer(int width, int height)
         {
             vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(vertexArrayObject);
@@ -105,49 +98,30 @@ namespace Swordfish.Core.Rendering.Renderers
             var texCoordLocation = shader.GetAttribLocation("aTexCoord");
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+        }
 
-            
-        } 
-
-        public void Draw(Scene scene, GameCamera camera)
+        public void Render(Scene scene, GameCamera camera, int width, int height)
         {
-           
-            GL.Enable(EnableCap.DepthTest);
-            //GL.Enable(EnableCap.)
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            
-
-            //GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
-
-
-            var spriteEntities = scene.Entities
-                .Where(e => e.HasComponent<Sprite>())
-                .Where(e => e.HasComponent<Transform>());
-
-            foreach (var entity in spriteEntities) {
-                // Console.WriteLine(entity.id);
-                var spriteComponent = entity.GetComponent<Sprite>();
-                var transformComponent = entity.GetComponent<Transform>();
-
-                spriteComponent.BindTexture(TextureUnit.Texture0);
+            if (scene.HasBackgroundImageSet())
+            {
+                GL.Enable(EnableCap.DepthTest);
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+                // set background image
+                scene.BindTexture(TextureUnit.Texture0);
                 shader.Use();
 
                 var model = Matrix4.Identity;
+
+                var dimensions = scene.GetBgDimensions();
+                // Get which side to scale up towards
+                var imageWidth = width / dimensions.X > height / dimensions.Y ? width: dimensions.X * height / dimensions.Y;
+                var imageHeight = height / dimensions.Y > width / dimensions.X ? height : dimensions.Y * width / dimensions.X;
+
                 // Order MUST be scale, rotate, translate.
-                
-                model *= Matrix4.CreateScale(spriteComponent.Width * transformComponent.Scale.X, spriteComponent.Height * transformComponent.Scale.Y, 0f);
-
-                model *= Matrix4.CreateTranslation(spriteComponent.Width * transformComponent.Scale.X / -2, spriteComponent.Height * transformComponent.Scale.Y / -2, 0f);
-                model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
-                model *= Matrix4.CreateTranslation(spriteComponent.Width * transformComponent.Scale.X / 2, spriteComponent.Height * transformComponent.Scale.Y / 2, 0f);
-                model *= Matrix4.CreateTranslation(
-                    transformComponent.Position.X + spriteComponent.Width * transformComponent.Scale.X / -2,
-                    transformComponent.Position.Y + spriteComponent.Height * transformComponent.Scale.Y / -2,
-                    transformComponent.Position.Z
-                );
-
+                model *= Matrix4.CreateScale(imageWidth, imageHeight, 0f);
+                model *= Matrix4.CreateTranslation(-imageWidth / 2, -imageHeight / 2, -10f);
+                //model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
 
 
                 shader.SetMatrix4("model", model);
@@ -155,25 +129,13 @@ namespace Swordfish.Core.Rendering.Renderers
                 shader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
                 shader.SetFloat("alpha_threshold", .5f);
-                shader.SetVector3("color", spriteComponent.Color);
-
+                shader.SetVector3("color", new Vector3(1f, 1f, 1f));
 
                 GL.BindVertexArray(vertexArrayObject);
 
                 GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
-
             }
 
-
-        }
-
-        public void Dispose()
-        {
-            // Delete all the resources.
-            GL.DeleteBuffer(vertexBufferObject);
-            GL.DeleteVertexArray(vertexArrayObject);
-
-            GL.DeleteProgram(shader.Handle);
         }
     }
 }

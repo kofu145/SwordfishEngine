@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityTesting", "TestProjec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGameProject", "TestProjects\TestGameProject\TestGameProject.csproj", "{18806AEA-958B-49C0-AEFC-93F4E5D9BEDB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreAudio", "..\NetCoreAudio\NetCoreAudio\NetCoreAudio.csproj", "{2018EFE3-A289-4B44-BE52-E2A0F3354B84}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{18806AEA-958B-49C0-AEFC-93F4E5D9BEDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18806AEA-958B-49C0-AEFC-93F4E5D9BEDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18806AEA-958B-49C0-AEFC-93F4E5D9BEDB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2018EFE3-A289-4B44-BE52-E2A0F3354B84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2018EFE3-A289-4B44-BE52-E2A0F3354B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2018EFE3-A289-4B44-BE52-E2A0F3354B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2018EFE3-A289-4B44-BE52-E2A0F3354B84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

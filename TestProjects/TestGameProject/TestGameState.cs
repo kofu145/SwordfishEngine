@@ -32,9 +32,9 @@ namespace TestGameProject
             testEntity = new Entity();
             testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png"));
             testEntity.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
-            testEntity.AddComponent(new Sound("../../../Resources/test.mp3"));
+            //testEntity.AddComponent(new Sound("../../../Resources/test.mp3"));
             this.GameScene.Entities.Add(testEntity);
-            testEntity.GetComponent<Sound>().Play();
+            //testEntity.GetComponent<Sound>().Play();
 
             var towaEntity = new Entity();
             towaEntity.AddComponent(new Sprite("../../../Resources/towa.png")).AddComponent(new Transform(-250f, 0f, 0f, 0f, 0f, 10f, .3f, .3f));
@@ -47,7 +47,7 @@ namespace TestGameProject
             var osuEntity = new Entity();
             osuEntity.AddComponent(new Sprite("../../../Resources/osu.png")).AddComponent(new Transform(0f, -200f, -.5f, 0f, 0f, 0f, .1f, .1f));
             this.GameScene.Entities.Add(osuEntity);
-
+            
 
             var textTestEntity = new Entity();
             textTestEntity.AddComponent(new Label("WEEEEEEEEEEEEEEE", 1f, 0f, 50f, 0f, arial));

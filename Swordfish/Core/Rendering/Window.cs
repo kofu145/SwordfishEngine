@@ -108,7 +108,9 @@ namespace Swordfish.Core.Rendering
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
-            spriteRenderer.Dispose();         
+            spriteRenderer.OnUnload();
+
+            AudioManager.Instance.OnUnload();
             GameStateManager.Instance.OnUnload();
         }
 

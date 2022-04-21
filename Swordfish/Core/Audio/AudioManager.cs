@@ -204,8 +204,14 @@ namespace Swordfish.Core.Audio
             }
         }
 
-        public void Unload()
+        public void OnUnload()
         {
+            AL.SourceStop(sources.Length, sources);
+            AL.DeleteSources(sources.Length, ref sources[0]);
+
+            ALC.MakeContextCurrent(ALContext.Null);
+            ALC.DestroyContext(context);
+            ALC.CloseDevice(device);
 
         }
 

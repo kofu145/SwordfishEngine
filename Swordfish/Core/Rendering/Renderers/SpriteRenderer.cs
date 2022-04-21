@@ -167,7 +167,7 @@ namespace Swordfish.Core.Rendering.Renderers
 
         }
 
-        public void Dispose()
+        public void OnUnload()
         {
             // Delete all the resources.
             GL.DeleteBuffer(vertexBufferObject);

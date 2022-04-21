@@ -18,9 +18,9 @@ namespace Swordfish.Components
         /// <param name="soundFilePath">The filepath to the sound file you want to play.</param>
         /// <param name="volume">Volume value, set as a float between 0 and 1.</param>
         /// <param name="priority">Priority value of this sound. See <see cref="AudioPriority"/>.</param>
-        public Sound(string soundFilePath, float volume=1f, AudioPriority priority=AudioPriority.Standard)
+        public Sound(string soundFilePath, float volume=1f, float pitch=1f, AudioPriority priority=AudioPriority.Standard)
         {
-            this.audio = Audio.LoadFromWAV(soundFilePath, volume, priority);
+            this.audio = Audio.LoadFromWAV(soundFilePath, volume, pitch, priority);
         }
 
         public void Play()
@@ -38,7 +38,7 @@ namespace Swordfish.Components
             
         }
 
-        public void SetVolume(byte volume)
+        public void SetVolume(float volume)
         {
             
         }

@@ -154,7 +154,7 @@ namespace Swordfish.Core.Audio
             return (AudioState)Enum.Parse(typeof(AudioState), AL.GetSourceState(sources[channel]).ToString());
         }
 
-        // TODO: Concern over indexof performance? Can come up with own algorithm. Also, pitch doesn't work correctly.
+        // TODO: Concern over indexof performance? Can come up with own algorithm. Also, pitch also scales time.
         /// <summary>
         /// Pauses the given audio channel.
         /// </summary>

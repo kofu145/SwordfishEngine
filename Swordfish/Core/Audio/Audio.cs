@@ -25,7 +25,7 @@ namespace Swordfish.Core.Audio
         internal bool loops;
         internal AudioPriority priority;
 
-        private Audio(byte[] data, int channels, int bitsPerSample, int size, int sampleRate, float volume, AudioPriority priority)
+        private Audio(byte[] data, int channels, int bitsPerSample, int size, int sampleRate, float volume, float pitch, AudioPriority priority)
         {
             this.data = data;
             this.numChannels = channels;
@@ -55,7 +55,7 @@ namespace Swordfish.Core.Audio
         /// <param name="volume">Volume of this particular audio segment.</param>
         /// <param name="priority">Priority of the given sound to play</param>
         /// <returns></returns>
-        public static Audio LoadFromWAV(string filePath, float volume, AudioPriority priority=AudioPriority.Standard)
+        public static Audio LoadFromWAV(string filePath, float volume, float pitch=1f, AudioPriority priority=AudioPriority.Standard)
         {
             int numChannels;
             int sampleRate;
@@ -148,7 +148,7 @@ namespace Swordfish.Core.Audio
 
                 }
             }
-            return new Audio(audioData, numChannels, bitsPerSample, size, sampleRate, volume, priority);
+            return new Audio(audioData, numChannels, bitsPerSample, size, sampleRate, volume, pitch, priority);
         }
 
         //static Audio LoadFromMP3()

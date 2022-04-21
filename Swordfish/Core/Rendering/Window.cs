@@ -14,6 +14,7 @@ using ImGuiNET;
 using Swordfish.Core.Rendering.Renderers;
 using Swordfish.Core.Input;
 using Swordfish.Scripting;
+using Swordfish.Core.Audio;
 
 namespace Swordfish.Core.Rendering
 {
@@ -31,6 +32,7 @@ namespace Swordfish.Core.Rendering
         {
             GameStateManager.Instance.AddScreen(initialGameState);
             InputManager.Instance.SetSystemStates(KeyboardState, MouseState);
+            AudioManager.Instance.Initialize(64, .2f);
         }
         protected override void OnLoad()
         {

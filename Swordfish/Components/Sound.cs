@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,55 +10,41 @@ namespace Swordfish.Components
 {
     public class Sound : IComponent
     {
-        private AudioPlayer audioPlayer;
-        private IAudioPlayer audio_player;
-        private string audio;
-        private byte volume;
+        private Audio audio;
 
         /// <summary>
         /// A sound component that is set to handle the playing and handling of audio files.
         /// </summary>
-        /// <param name="soundFilePath"></param>
-        public Sound(string soundFilePath)
+        /// <param name="soundFilePath">The filepath to the sound file you want to play.</param>
+        /// <param name="volume">Volume value, set as a float between 0 and 1.</param>
+        /// <param name="priority">Priority value of this sound. See <see cref="AudioPriority"/>.</param>
+        public Sound(string soundFilePath, float volume=1f, AudioPriority priority=AudioPriority.Standard)
         {
-            this.audioPlayer = new AudioPlayer(soundFilePath);
-        }
-
-        /// <summary>
-        /// A sound component that is set to handle the playing and handling of audio files.
-        /// </summary>
-        /// <param name="volume">Volume value, set as a percentage between 1-100.</param>
-        public Sound(string soundFilePath, byte volume)
-        {
-            audioPlayer = new AudioPlayer(soundFilePath);
-            audioPlayer.SetVolume(volume);
-            this.volume = volume;
+            this.audio = Audio.LoadFromWAV(soundFilePath, volume, priority);
         }
 
         public void Play()
         {
-            audioPlayer.Play();
+            audio.Play();
         }
 
         public void Pause()
         {
-            audioPlayer.Pause();
+            
         }
 
         public void Resume()
         {
-            audioPlayer.Resume();
+            
         }
 
         public void SetVolume(byte volume)
         {
-            this.volume = volume;
-            audioPlayer.SetVolume(volume);
+            
         }
 
         public void Stop()
         {
-            audioPlayer.Stop();
         }
 
         public void OnLoad()
@@ -71,4 +57,3 @@ namespace Swordfish.Components
         }
     }
 }
-*/

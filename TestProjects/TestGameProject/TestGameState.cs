@@ -32,13 +32,15 @@ namespace TestGameProject
             testEntity = new Entity();
             testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png"));
             testEntity.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
-            //testEntity.AddComponent(new Sound("../../../Resources/test.mp3"));
+            testEntity.AddComponent(new Sound("../../../Resources/applause.wav", .5f));
             this.GameScene.Entities.Add(testEntity);
-            //testEntity.GetComponent<Sound>().Play();
+            testEntity.GetComponent<Sound>().Play();
 
             var towaEntity = new Entity();
             towaEntity.AddComponent(new Sprite("../../../Resources/towa.png")).AddComponent(new Transform(-250f, 0f, 0f, 0f, 0f, 10f, .3f, .3f));
+            towaEntity.AddComponent(new Sound("../../../Resources/applause.wav", .5f));
             this.GameScene.Entities.Add(towaEntity);
+            towaEntity.GetComponent<Sound>().Play();
 
             var towaEntity2 = new Entity();
             towaEntity2.AddComponent(new Sprite("../../../Resources/towa.png")).AddComponent(new Transform(250f, 0f, 1f, 0f, 0f, -10f, .3f, .3f));

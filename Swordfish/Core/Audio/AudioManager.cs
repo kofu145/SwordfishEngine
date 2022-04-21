@@ -13,9 +13,44 @@ namespace Swordfish.Core.Audio
         private float volume;
         private readonly ALDevice device;
         private readonly ALContext context;
-        private int[] channels;
+        private int[] sources;
+        private Audio[] channels;
+        // next available channel
+        private int channelTracker;
 
-        public AudioManager(int numOfChannels=32, float volume=1f)
+        /// <summary>
+        /// The singleton instance of the AudioManager.
+        /// NOTE: There are some context dependent things that need to be initialized, so don't reference this
+        /// until you've completely made your window (which shouldn't be a problem anyways).
+        /// </summary>
+        private static AudioManager instance;
+
+        // Singleton Pattern Logic
+        public static AudioManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new AudioManager();
+
+                }
+                return instance;
+            }
+        }
+
+        public void Initialize(int numOfChannels = 64, float volume = 1f)
+        {
+            sources = new int[numOfChannels];
+            channels = new Audio[numOfChannels];
+            channelTracker = 0;
+
+            AL.GenSources(numOfChannels, sources);
+
+            AL.Listener(ALListenerf.Gain, volume);
+        }
+
+        private AudioManager()
         {
             // Grab AL soft device if possible
             var devices = ALC.GetStringList(GetEnumerationStringList.DeviceSpecifier);
@@ -28,7 +63,7 @@ namespace Swordfish.Core.Audio
                 }
             }
 
-            device = ALC.OpenDevice(deviceName);
+            this.device = ALC.OpenDevice(deviceName);
             context = ALC.CreateContext(device, (int[])null);
             ALC.MakeContextCurrent(context);
 
@@ -45,18 +80,120 @@ namespace Swordfish.Core.Audio
 
             Console.WriteLine($"OpenAL Info:\nVendor: {vend}, \nVersion: {vers}, \nRenderer: {rend}, \nExtensions: {exts}, \nALC Version: {alcMajorVersion}.{alcMinorVersion}, \nALC Extensions: {alcExts}");
 
-            channels = new int[numOfChannels];
-
-            AL.GenSources(numOfChannels, channels);
-
-            AL.Listener(ALListenerf.Gain, volume);
 
         }
 
-        public void PlayAudio()
+        /// <summary>
+        /// Finds an applicable channel, then plays the data found in the given <see cref="Audio"/> object.
+        /// </summary>
+        /// <param name="audio"></param>
+        /// <returns></returns>
+        public void PlayAudio(Audio audio)
         {
+            Console.WriteLine(channelTracker);
+            if (channelTracker >= sources.Length)
+            {
+                Console.WriteLine(channelTracker);
 
+                bool channelOverflow = true;
+                // Find next possible channel
+                for (int i = 0; i < sources.Length; i++)
+                {
+                    if (IsPlaying(i) || channels[i].priority == AudioPriority.Critical)
+                        continue;
+
+                    // if this isn't skipped, we know there's another available channel id
+                    channelTracker = i;
+                    channelOverflow = false;
+                }
+
+                if (channelOverflow)
+                {
+                    channelTracker = -1;
+                    var priorityTrack = AudioPriority.Critical;
+                    // overwrite first applicable sound with lowest priority
+                    for (int i = 0; i < sources.Length; i++)
+                    {
+                        if (channels[i].priority < priorityTrack)
+                            channelTracker = i;
+                    }
+                    // if we couldn't find any applicable channels
+                    if (channelTracker == -1)
+                    {
+                        throw new Exception("Channels overflowed! Number of playable sounds exceeded!");
+                    }
+                }
+
+            }
+                
+            int source = sources[channelTracker];
+            channels[channelTracker] = audio;
+            AL.Source(source, ALSourcei.Buffer, audio.buffer);
+            AL.Source(source, ALSourcef.Gain, audio.volume); 
+            AL.SourcePlay(source);
+            channelTracker++;
         }
+
+        /// <summary>
+        /// Checks if any audio is playing on a given channel.
+        /// </summary>
+        /// <param name="channel">The channel to evaluate.</param>
+        /// <returns>A boolean indicating whether or not it is playing.</returns>
+        public bool IsPlaying(int channel)
+        {
+            return AL.GetSourceState(sources[channel]) == ALSourceState.Playing;
+        }
+
+        /// <summary>
+        /// Returns the state of an audio channel.
+        /// </summary>
+        /// <param name="channel">The channel to evaluate.</param>
+        /// <returns></returns>
+        public AudioState GetAudioState(int channel)
+        {
+            return (AudioState)Enum.Parse(typeof(AudioState), AL.GetSourceState(sources[channel]).ToString());
+        }
+
+        // TODO: Concern over indexof performance? Can come up with own algorithm. Also, pitch doesn't work correctly.
+        /// <summary>
+        /// Pauses the given audio channel.
+        /// </summary>
+        /// <param name="audio"></param>
+        public void Pause(Audio audio)
+        {
+            AL.SourcePause(sources[Array.IndexOf(channels, audio)]);
+        }
+
+        public void Resume(Audio audio)
+        {
+            AL.SourcePlay(sources[Array.IndexOf(channels, audio)]);
+        }
+
+        public void Stop(Audio audio)
+        {
+            AL.SourceStop(sources[Array.IndexOf(channels, audio)]);
+        }
+
+        public void SetVolume(Audio audio)
+        {
+            AL.Source(sources[Array.IndexOf(channels, audio)], ALSourcef.Gain, audio.volume);
+        }
+
+        public void SetVolume(int channel, float volume)
+        {
+            AL.Source(sources[channel], ALSourcef.Gain, volume);
+        }
+
+        public void SetPitch(Audio audio)
+        {
+            AL.Source(sources[Array.IndexOf(channels, audio)], ALSourcef.Pitch, audio.pitch);
+        }
+
+        public void SetPitch(int channel, float pitch)
+        {
+            AL.Source(sources[channel], ALSourcef.Pitch, pitch);
+        }
+        
 
         public static void CheckALError(string str)
         {
@@ -65,6 +202,11 @@ namespace Swordfish.Core.Audio
             {
                 Console.WriteLine($"ALError at '{str}': {AL.GetErrorString(error)}");
             }
+        }
+
+        public void Unload()
+        {
+
         }
 
     }

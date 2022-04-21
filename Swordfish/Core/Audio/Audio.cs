@@ -11,7 +11,7 @@ namespace Swordfish.Core.Audio
     /// <summary>
     /// Handles audio buffer data. 
     /// </summary>
-    public class Audio
+    internal class Audio
     {
         internal int buffer;
 
@@ -20,8 +20,12 @@ namespace Swordfish.Core.Audio
         internal ALFormat format;
         internal int sampleRate;
         internal int bitsPerSample;
+        internal float volume;
+        internal float pitch;
+        internal bool loops;
+        internal AudioPriority priority;
 
-        private Audio(byte[] data, int channels, int bitsPerSample, int size, int sampleRate)
+        private Audio(byte[] data, int channels, int bitsPerSample, int size, int sampleRate, float volume, AudioPriority priority)
         {
             this.data = data;
             this.numChannels = channels;
@@ -35,17 +39,23 @@ namespace Swordfish.Core.Audio
                 throw new Exception("Couldn't load format!");
             this.sampleRate = sampleRate;
             this.bitsPerSample = bitsPerSample;
+            this.volume = volume;
+            this.priority = priority;
 
             buffer = AL.GenBuffer();
             // TODO: stream into several buffers
             AL.BufferData(buffer, format, data, sampleRate);
 
-
         }
-
-
-
-        static Audio LoadFromWAV(string filePath)
+        
+        /// <summary>
+        /// Instantiates an <see cref="Audio"/> instance from a wav file.
+        /// </summary>
+        /// <param name="filePath">Filepath of the wav file to load.</param>
+        /// <param name="volume">Volume of this particular audio segment.</param>
+        /// <param name="priority">Priority of the given sound to play</param>
+        /// <returns></returns>
+        public static Audio LoadFromWAV(string filePath, float volume, AudioPriority priority=AudioPriority.Standard)
         {
             int numChannels;
             int sampleRate;
@@ -74,8 +84,31 @@ namespace Swordfish.Core.Audio
                     // Subchunk1ID (4 bytes)
                     //Contains the letters "fmt "
                     //(0x666d7420 big - endian form).
-                    if (new String(reader.ReadChars(4)) != "fmt ")
-                        throw new Exception("Invalid wave file! (could not read fmt)");
+                    string subChunk1ID = new String(reader.ReadChars(4));
+
+                    // Subchunk1Size (4 bytes)
+                    int subChunkSize = reader.ReadInt32();
+
+                    if (subChunk1ID == "JUNK")
+                    {
+                        reader.ReadBytes(subChunkSize);
+                        // resetting subChunk1ID to read for "fmt "
+                        subChunk1ID = new String(reader.ReadChars(4));
+
+                        // if bext chunk exists, process that too
+                        if (subChunk1ID == "bext")
+                        {
+                            reader.ReadBytes(reader.ReadInt32());
+                            subChunk1ID = new String(reader.ReadChars(4));
+                            // Subchunk1Size (4 bytes)
+                            subChunkSize = reader.ReadInt32();
+                        }
+                    }
+
+                    // Console.WriteLine(subChunk1ID);
+                    if (subChunk1ID != "fmt ")
+                        throw new Exception("Invalid wave file! (could not read fmt )");
+                    
 
                     // AudioFormat (2 bytes)
                     // PCM = 1 (i.e. Linear quantization)
@@ -115,13 +148,23 @@ namespace Swordfish.Core.Audio
 
                 }
             }
-            return new Audio(audioData, numChannels, bitsPerSample, size, sampleRate);
+            return new Audio(audioData, numChannels, bitsPerSample, size, sampleRate, volume, priority);
         }
 
         //static Audio LoadFromMP3()
         //{
         //    return new Audio();
         //}
+
+        public void Play()
+        {
+            AudioManager.Instance.PlayAudio(this);
+        }
+
+        public void Pause()
+        {
+
+        }
 
     }
 }

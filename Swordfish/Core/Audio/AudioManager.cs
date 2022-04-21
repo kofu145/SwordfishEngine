@@ -154,6 +154,16 @@ namespace Swordfish.Core.Audio
             return (AudioState)Enum.Parse(typeof(AudioState), AL.GetSourceState(sources[channel]).ToString());
         }
 
+        /// <summary>
+        /// Returns the state of an audio channel.
+        /// </summary>
+        /// <param name="audio">The <see cref="Audio"/> to evaluate.</param>
+        /// <returns></returns>
+        public AudioState GetAudioState(Audio audio)
+        {
+            return (AudioState)Enum.Parse(typeof(AudioState), AL.GetSourceState(sources[Array.IndexOf(channels, audio)]).ToString());
+        }
+
         // TODO: Concern over indexof performance? Can come up with own algorithm. Also, pitch also scales time.
         /// <summary>
         /// Pauses the given audio channel.
@@ -193,7 +203,15 @@ namespace Swordfish.Core.Audio
         {
             AL.Source(sources[channel], ALSourcef.Pitch, pitch);
         }
-        
+        public void SetLooping(Audio audio)
+        {
+            AL.Source(sources[Array.IndexOf(channels, audio)], ALSourceb.Looping, audio.loops);
+        }
+
+        public void SetLooping(int channel, bool loop)
+        {
+            AL.Source(sources[channel], ALSourceb.Looping, loop);
+        }
 
         public static void CheckALError(string str)
         {

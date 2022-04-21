@@ -24,6 +24,7 @@ namespace Swordfish.Core.Audio
         internal float pitch;
         internal bool loops;
         internal AudioPriority priority;
+        internal AudioState state { get { return AudioManager.Instance.GetAudioState(this); } private set { } }
 
         private Audio(byte[] data, int channels, int bitsPerSample, int size, int sampleRate, float volume, float pitch, AudioPriority priority)
         {
@@ -163,8 +164,35 @@ namespace Swordfish.Core.Audio
 
         public void Pause()
         {
-
+            AudioManager.Instance.Pause(this);
         }
 
+        public void Resume()
+        {
+            AudioManager.Instance.Resume(this);
+        }
+
+        public void Stop()
+        {
+            AudioManager.Instance.Stop(this);
+        }
+
+        public void SetVolume(float volume)
+        {
+            this.volume = volume;
+            AudioManager.Instance.SetVolume(this);
+        }
+
+        public void SetPitch(float pitch)
+        {
+            this.pitch = pitch;
+            AudioManager.Instance.SetPitch(this);
+        }
+
+        public void SetLooping(bool loop)
+        {
+            this.loops = loop;
+            AudioManager.Instance.SetLooping(this);
+        }
     }
 }

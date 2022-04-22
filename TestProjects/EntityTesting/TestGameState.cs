@@ -15,6 +15,7 @@ namespace EntityTesting
 {
     public class TestGameState : GameState
     {
+        FontLibrary fontLibrary = new FontLibrary();
         public TestGameState()
         {
         }
@@ -29,8 +30,8 @@ namespace EntityTesting
         {
             ContextButton button = new ContextButton(300, 100, 0, 0, "hello!");
             Entity buttonEntity = new Entity(button);
-            Label label = new Label("Hello World!", 1.2F, new OpenTK.Mathematics.Vector3(0,0,0));
-            Label label2 = new Label("Hello World!", 1.2F, new OpenTK.Mathematics.Vector3(0, 0, 0));
+            Label label = new Label("Hello World!", 1.2F, new OpenTK.Mathematics.Vector3(0,0,0), fontLibrary);
+            Label label2 = new Label("Hello World!", 1.2F, new OpenTK.Mathematics.Vector3(0, 0, 0), fontLibrary);
             buttonEntity.AddComponent(label2);
             Entity chainTest = new Entity();
             Sprite image = new Sprite("F:\\Downloads\\IMG_20220330_181604.jpg");

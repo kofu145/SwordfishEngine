@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
+using OpenTK.Mathematics;
 
 namespace Swordfish.Core
 {
@@ -33,6 +34,9 @@ namespace Swordfish.Core
             }
         }
 
+        public Vector2 mouseDelta { get{ return mouseState.Delta; } private set{} }
+        public Vector2 mousePos { get{ return mouseState.Position; } private set{} }
+
         internal void SetSystemStates(KeyboardState keyboardState, MouseState mouseState)
         {
             this.keyboardState = keyboardState;
@@ -52,6 +56,21 @@ namespace Swordfish.Core
             return keyboardState.IsKeyReleased((OpenTK.Windowing.GraphicsLibraryFramework.Keys)key);
         }
 
+        public bool GetMouseButtonDown(MouseButton button){
+            return mouseState.IsButtonDown(button);
+        }
+
+        public bool GetMouseButtonWasDown(MouseButton button){
+            return mouseState.WasButtonDown(button);
+        }
+
+        public bool GetIsAnyMouseKeyDown(){
+            return mouseState.IsAnyButtonDown;
+        }
+
+        public Vector2 GetMousePos(){
+            return new Vector2(mouseState.X, mouseState.Y);
+        }
 
     }
 }

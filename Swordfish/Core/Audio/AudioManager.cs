@@ -90,10 +90,10 @@ namespace Swordfish.Core.Audio
         /// <returns></returns>
         public void PlayAudio(Audio audio)
         {
-            Console.WriteLine(channelTracker);
+            //Console.WriteLine(channelTracker);
             if (channelTracker >= sources.Length)
             {
-                Console.WriteLine(channelTracker);
+                //Console.WriteLine(channelTracker);
 
                 bool channelOverflow = true;
                 // Find next possible channel

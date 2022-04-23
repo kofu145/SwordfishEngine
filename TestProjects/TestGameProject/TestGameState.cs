@@ -5,6 +5,7 @@ using Swordfish.Core;
 using Swordfish.ECS;
 using Swordfish.Components;
 using Swordfish.Components.UI;
+using Swordfish.Core.Input;
 
 namespace TestGameProject
 {
@@ -32,21 +33,27 @@ namespace TestGameProject
             testEntity = new Entity();
             testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png"));
             testEntity.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
-            testEntity.AddComponent(new Sound("../../../Resources/applause.wav", .5f));
+            testEntity.AddComponent(new Sound("../../../Resources/test.wav", .5f));
             this.GameScene.Entities.Add(testEntity);
             testEntity.GetComponent<Sound>().Play();
 
             var towaEntity = new Entity();
-            towaEntity.AddComponent(new Sprite("../../../Resources/towa.png")).AddComponent(new Transform(-250f, 0f, 0f, 0f, 0f, 10f, .3f, .3f));
+            towaEntity
+                .AddComponent(new Sprite("../../../Resources/towa.png"))
+                .AddComponent(new Transform(-250f, 0f, 0f, 0f, 180f, 10f, .3f, .3f));
             this.GameScene.Entities.Add(towaEntity);
             
 
             var towaEntity2 = new Entity();
-            towaEntity2.AddComponent(new Sprite("../../../Resources/towa.png")).AddComponent(new Transform(250f, 0f, 1f, 0f, 0f, -10f, .3f, .3f));
+            towaEntity2
+                .AddComponent(new Sprite("../../../Resources/towa.png"))
+                .AddComponent(new Transform(250f, 0f, 1f, 0f, 0f, -10f, .3f, .3f));
             this.GameScene.Entities.Add(towaEntity2);
 
             var osuEntity = new Entity();
-            osuEntity.AddComponent(new Sprite("../../../Resources/osu.png")).AddComponent(new Transform(0f, -200f, -.5f, 0f, 0f, 0f, .1f, .1f));
+            osuEntity
+                .AddComponent(new Sprite("../../../Resources/osu.png"))
+                .AddComponent(new Transform(0f, -200f, -.5f, 0f, 0f, 0f, .1f, .1f));
             this.GameScene.Entities.Add(osuEntity);
             
 
@@ -69,6 +76,7 @@ namespace TestGameProject
         public override void Update()
         {
             testEntity.GetComponent<Transform>().Rotation.Z+= 5f;
+            
         }
     }
 }

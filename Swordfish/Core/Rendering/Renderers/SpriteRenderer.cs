@@ -139,14 +139,18 @@ namespace Swordfish.Core.Rendering.Renderers
                 
                 model *= Matrix4.CreateScale(spriteComponent.Width * transformComponent.Scale.X, spriteComponent.Height * transformComponent.Scale.Y, 0f);
 
-                model *= Matrix4.CreateTranslation(spriteComponent.Width * transformComponent.Scale.X / -2, spriteComponent.Height * transformComponent.Scale.Y / -2, 0f);
+                model *= Matrix4.CreateTranslation(-spriteComponent.Origin.X * transformComponent.Scale.X, -spriteComponent.Origin.Y * transformComponent.Scale.Y, 0f);
+
+                model *= Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(transformComponent.Rotation.X));
+                model *= Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Y));
                 model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
-                model *= Matrix4.CreateTranslation(spriteComponent.Width * transformComponent.Scale.X / 2, spriteComponent.Height * transformComponent.Scale.Y / 2, 0f);
+
+                model *= Matrix4.CreateTranslation(spriteComponent.Origin.X * transformComponent.Scale.X, spriteComponent.Origin.Y * transformComponent.Scale.Y, 0f);
                 model *= Matrix4.CreateTranslation(
-                    transformComponent.Position.X + spriteComponent.Width * transformComponent.Scale.X / -2,
-                    transformComponent.Position.Y + spriteComponent.Height * transformComponent.Scale.Y / -2,
+                    transformComponent.Position.X + -spriteComponent.Origin.X * transformComponent.Scale.X,
+                    transformComponent.Position.Y + -spriteComponent.Origin.Y * transformComponent.Scale.Y,
                     transformComponent.Position.Z
-                );
+                    );
 
 
 

@@ -15,21 +15,22 @@ namespace Swordfish.Components
 
         public int Width => this.texture.Width;
         public int Height => this.texture.Height;
-
+        public Vector2 Origin { get; set; }
         public Vector3 Color { get; set; }
 
         /// <summary>
-        /// Creates a new sprite component.
+        /// Creates a new sprite component. Origin is automatically centered.
         /// </summary>
         /// <param name="textureFilePath">The filepath to the image you are using for your sprite.</param>
         public Sprite(string textureFilePath)
         {
             this.texture = Texture.LoadFromFile(textureFilePath, TextureFilter.nearest);
+            this.Origin = new Vector2(Width / 2, Height / 2);
             this.Color = new Vector3(1f, 1f, 1f);
         }
 
         /// <summary>
-        /// Creates a new sprite component.
+        /// Creates a new sprite component. Origin is automatically centered.
         /// </summary>
         /// <param name="textureFilePath">The filepath to the image you are using for your sprite.</param>
         /// <param name="r">The red value of the rgb color model to apply to this sprite.</param>
@@ -39,6 +40,21 @@ namespace Swordfish.Components
         {
             this.texture = Texture.LoadFromFile(textureFilePath, TextureFilter.nearest);
             this.Color = new Vector3(r, g, b);
+            this.Origin = new Vector2(Width / 2, Height / 2);
+        }
+
+        /// <summary>
+        /// Creates a new sprite component. Origin is automatically centered.
+        /// </summary>
+        /// <param name="textureFilePath">The filepath to the image you are using for your sprite.</param>
+        /// <param name="r">The red value of the rgb color model to apply to this sprite.</param>
+        /// <param name="g">The green value of the rgb color model to apply to this sprite.</param>
+        /// <param name="b">The blue value of the rgb color model to apply to this sprite.</param>
+        public Sprite(string textureFilePath, float r, float g, float b, Vector2 origin)
+        {
+            this.texture = Texture.LoadFromFile(textureFilePath, TextureFilter.nearest);
+            this.Color = new Vector3(r, g, b);
+            this.Origin = origin;
         }
 
         public void OnLoad()

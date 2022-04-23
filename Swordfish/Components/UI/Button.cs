@@ -41,7 +41,7 @@ namespace Swordfish.Components.UI
         }
         public void Update()
         {
-            Vector2 mousePos = InputManager.Instance.GetMousePos();
+            Vector2 mousePos = InputManager.Instance.mousePos;
             if (mousePos.X > xpos && mousePos.X < xpos + Width && mousePos.Y > ypos && mousePos.Y < ypos + Height)
             {
                 this.AddComponent(Hovered);

@@ -28,9 +28,6 @@ namespace Swordfish.Scripting
         {
             switch(type)
             {
-                case "ContextButton":
-                    return e.GetComponent<ContextButton>();
-
                 case "Label":
                     return e.GetComponent<Label>();
 

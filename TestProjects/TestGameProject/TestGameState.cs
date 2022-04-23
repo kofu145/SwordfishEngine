@@ -33,7 +33,7 @@ namespace TestGameProject
             testEntity = new Entity();
             testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png"));
             testEntity.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
-            testEntity.AddComponent(new Sound("../../../Resources/applause.wav", .5f));
+            testEntity.AddComponent(new Sound("../../../Resources/test.wav", .5f));
             this.GameScene.Entities.Add(testEntity);
             testEntity.GetComponent<Sound>().Play();
 

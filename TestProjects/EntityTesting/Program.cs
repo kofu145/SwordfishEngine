@@ -14,13 +14,10 @@ namespace EntityTesting
 {
     class Program
     {
-        public static GameState gameState = new TestGameState();
         public static Game testGame;
+        public static GameState gameState = new InitGameState();
         static void Main(String[] args)
         {
-            Entity _camera = new Entity();
-            _camera.AddComponent(new Camera());
-            gameState.GameScene.Entities.Add(_camera);
             createWindow();
         }
         static void createWindow()

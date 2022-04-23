@@ -13,9 +13,36 @@ using Swordfish.Scripting;
 
 namespace EntityTesting
 {
+    public class InitGameState : GameState
+    {
+        public override void Draw()
+        {
+        }
+        public override void Initialize()
+        {
+            Camera C = new Camera();
+            this.GameScene.Entities.Add(new Entity(C));
+        }
+        public override void OnLoad()
+        {
+            FontLibrary lib = new FontLibrary();
+            ContextButton Button = new ContextButton("C:\\Users\\Logan\\Pictures\\buttons\\normal.png", "1",300,100,0,0,0);
+            ContextButton Button2 = new ContextButton("C:\\Users\\Logan\\Pictures\\buttons\\normal.png", "2", 100, 200, 100, 100, 0);
+            ContextButton Button3 = new ContextButton("C:\\Users\\Logan\\Pictures\\buttons\\normal.png", "3", 700, 200, 600, 100, 0);
+            this.GameScene.Entities.Add(Button);
+            this.GameScene.Entities.Add(Button2);
+            this.GameScene.Entities.Add(Button3);
+        }        
+        public override void OnUnload()
+        {
+
+        }
+        public override void Update()
+        {
+        }
+    }
     public class TestGameState : GameState
     {
-        FontLibrary fontLibrary = new FontLibrary();
         public TestGameState()
         {
         }
@@ -28,10 +55,10 @@ namespace EntityTesting
         }
         public override void OnLoad()
         {
-            ContextButton button = new ContextButton(300, 100, 0, 0, "hello!");
-            Entity buttonEntity = new Entity(button);
+            FontLibrary fontLibrary = new FontLibrary();
             Label label = new Label("Hello World!", 1.2F, new OpenTK.Mathematics.Vector3(0,0,0), fontLibrary);
             Label label2 = new Label("Hello World!", 1.2F, new OpenTK.Mathematics.Vector3(0, 0, 0), fontLibrary);
+            Entity buttonEntity = new Entity();
             buttonEntity.AddComponent(label2);
             Entity chainTest = new Entity();
             Sprite image = new Sprite("F:\\Downloads\\IMG_20220330_181604.jpg");

@@ -123,6 +123,7 @@ namespace Swordfish.ECS
         public Entity AddComponent<T>(T component) where T : IComponent
         {
             components[typeof(T)] = component;
+            component.SetParent(this);
             return this;
         }
 
@@ -139,6 +140,18 @@ namespace Swordfish.ECS
             IComponent value;
             components.TryRemove(typeof(T), out value);
             return value;
+        }
+
+        /// <summary>
+        /// Returns an array representing the components of this entity. 
+        /// (don't modify this, it shouldn't mess with the values)
+        /// </summary>
+        /// <returns></returns>
+        internal IComponent[] GetComponents()
+        {
+            IComponent[] iterableComponents = new IComponent[components.Count];
+            components.Values.CopyTo(iterableComponents, 0);
+            return iterableComponents;
         }
 
     }

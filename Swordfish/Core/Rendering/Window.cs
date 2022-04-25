@@ -78,6 +78,13 @@ namespace Swordfish.Core.Rendering
             // for all scripts run update
             base.OnUpdateFrame(e);
             GameStateManager.Instance.Update();
+            foreach (var entity in GameStateManager.Instance.GetScreen().GameScene.Entities)
+            {
+                foreach (var component in entity.GetComponents())
+                {
+                    component.Update();
+                }
+            }
         }
         protected override void OnTextInput(TextInputEventArgs e)
         {

@@ -21,7 +21,7 @@ namespace Swordfish.Components
         internal Sprite(Texture texture)
         {
             this.texture = texture;
-            this.Origin = new Vector2(0f, 0f);
+            this.Origin = new Vector2(Width / 2, Height / 2);
             this.Color = new Vector3(1f, 1f, 1f);
         }
 

@@ -41,12 +41,10 @@ namespace Swordfish.Components
 
         public override void OnLoad()
         {
-            throw new NotImplementedException();
         }
 
         public override void Update()
         {
-            throw new NotImplementedException();
         }
 
     }

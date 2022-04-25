@@ -31,8 +31,10 @@ namespace TestGameProject
             GameScene.SetBackgroundImage("../../../Resources/washington.png");
 
             Prefab testPrefab = new Prefab();
-            testPrefab.AddComponent(new Sprite("../../../Resources/towa.png"));
+            string[] thing = { "../../../Resources/towa.png" };
+            testPrefab.AddComponent(new Animation(thing));
             testPrefab.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
+            testPrefab.GetComponent<Animation>().SetTexture(0);
             this.GameScene.Entities.Add(testPrefab.Instantiate());
 
 

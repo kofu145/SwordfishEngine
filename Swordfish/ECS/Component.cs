@@ -20,9 +20,12 @@ namespace Swordfish.ECS
 
         public void SetParent(Entity entity)
         {
-            ParentEntity.AddComponent(this);
+            if (ParentEntity != null)
+            {
+                ParentEntity.RemoveComponent(this);
+                entity.AddComponent(this);
+            }
             ParentEntity = entity;
-            entity.RemoveComponent(this);
         }
     }
 }

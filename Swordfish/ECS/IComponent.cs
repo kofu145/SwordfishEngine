@@ -14,5 +14,7 @@ namespace Swordfish.ECS
 
         public void Update();
 
+        public void SetParent(Entity parentEntity);
+
     }
 }

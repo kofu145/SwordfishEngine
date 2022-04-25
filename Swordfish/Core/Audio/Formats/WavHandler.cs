@@ -43,6 +43,7 @@ namespace Swordfish.Core.Audio.Formats
             int? numChannels = null;
             int? sampleRate = null;
             int? bitsPerSample = null;
+            #nullable enable
             byte[]? audioData = null;
             int? size = null;
             bool haveFmt = false;

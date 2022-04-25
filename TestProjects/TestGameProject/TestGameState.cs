@@ -30,19 +30,27 @@ namespace TestGameProject
         {
             GameScene.SetBackgroundImage("../../../Resources/washington.png");
 
+            Prefab testPrefab = new Prefab();
+            testPrefab.AddComponent(new Sprite("../../../Resources/towa.png"));
+            testPrefab.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
+            this.GameScene.Entities.Add(testPrefab.Instantiate());
+
+
             testEntity = new Entity();
-            testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png"));
+            testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png", 255f, 255f, 255f));
             testEntity.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
             testEntity.AddComponent(new Sound("../../../Resources/test.wav", .5f));
             this.GameScene.Entities.Add(testEntity);
             testEntity.GetComponent<Sound>().Play();
 
+            var trans = new Transform(-250f, 0f, 0f, 0f, 180f, 10f, .3f, .3f);
             var towaEntity = new Entity();
             towaEntity
                 .AddComponent(new Sprite("../../../Resources/towa.png"))
-                .AddComponent(new Transform(-250f, 0f, 0f, 0f, 180f, 10f, .3f, .3f));
+                .AddComponent(trans);
             this.GameScene.Entities.Add(towaEntity);
-            
+
+            towaEntity.RemoveComponent(trans);
 
             var towaEntity2 = new Entity();
             towaEntity2

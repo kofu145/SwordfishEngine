@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using OpenTK.Mathematics;
+using Swordfish.Core.Math;
 using Swordfish.ECS;
 
 namespace Swordfish.Components
 {
-    public class Transform : IComponent
+    public class Transform : Component
     {
         /// <summary>
         /// A Vector2 representing position. Format is x, y, z. Z determines Z ordering.
@@ -57,12 +57,12 @@ namespace Swordfish.Components
             this(new Vector3(x, y, z), new Vector3(rx, ry, rz), new Vector2(sx, sy))
         { }
 
-        public void OnLoad()
+        public override void OnLoad()
         {
             throw new NotImplementedException();
         }
 
-        public void Update()
+        public override void Update()
         {
             throw new NotImplementedException();
         }

@@ -2,6 +2,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using Newtonsoft.Json;
+using Swordfish.Components;
 
 namespace Swordfish.ECS
 {
@@ -51,6 +56,36 @@ namespace Swordfish.ECS
 
         }
 
+        internal Entity(ConcurrentDictionary<Type, IComponent> copyComponents)
+        {
+            this.id = Guid.NewGuid();
+            components = copyComponents;
+        }
+
+        protected Entity GetDeepCopy()
+        {
+            /*
+            // Don't serialize a null object, simply return the default for that object
+            if (ReferenceEquals(this, null)) return default;
+
+            var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace, TypeNameHandling = TypeNameHandling.Auto };
+
+            return JsonConvert.DeserializeObject<Entity>(JsonConvert.SerializeObject(this, deserializeSettings), deserializeSettings);
+            */
+
+            // easy simpler code for deepcopy, for now, will have to eventually add json serialization support
+            var copyComponents = new ConcurrentDictionary<Type, IComponent>();
+            Console.WriteLine(components.Count);
+            foreach (KeyValuePair<Type, IComponent> entry in this.components)
+            {
+                Console.WriteLine(entry.Key);
+
+                copyComponents.TryAdd(entry.Key, entry.Value);
+            }
+            Entity copyEntity = new Entity(copyComponents);
+            return copyEntity;
+        }
+
         /// <summary>
         /// Grabs a specified type of component from the entity.
         /// </summary>
@@ -89,6 +124,21 @@ namespace Swordfish.ECS
         {
             components[typeof(T)] = component;
             return this;
+        }
+
+        public IComponent RemoveComponent<T>() where T: IComponent
+        {
+            IComponent value;
+            components.TryRemove(typeof(T), out value);
+            return value;
+        }
+
+        // overload to pass by instance, if you want
+        public IComponent RemoveComponent<T>(T component) where T : IComponent
+        {
+            IComponent value;
+            components.TryRemove(typeof(T), out value);
+            return value;
         }
 
     }

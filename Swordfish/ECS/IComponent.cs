@@ -9,6 +9,7 @@ namespace Swordfish.ECS
     /// </summary>
     public interface IComponent
     {
+        public Entity ParentEntity { get; }
         public void OnLoad();
 
         public void Update();

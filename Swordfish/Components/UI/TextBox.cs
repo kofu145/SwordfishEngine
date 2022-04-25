@@ -6,7 +6,7 @@ using Swordfish.ECS;
 
 namespace Swordfish.Components.UI
 {
-    public class TextBox : IComponent
+    public class TextBox : Component
     {
         private int _l;
         private int _fs;
@@ -26,10 +26,10 @@ namespace Swordfish.Components.UI
         public void onClick()
         {
         }
-        public void OnLoad()
+        public override void OnLoad()
         {   
         }
-        public void Update()
+        public override void Update()
         {
         }
     }

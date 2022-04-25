@@ -14,7 +14,7 @@ namespace Swordfish.Components
     /// <summary>
     /// A sound component that is set to handle the playing and handling of audio files.
     /// </summary>
-    public class Sound : IComponent
+    public class Sound : Component
     {
         private Audio audio;
 
@@ -76,11 +76,12 @@ namespace Swordfish.Components
             audio.SetLooping(loops);
         }
 
-        public void OnLoad()
+        public override void OnLoad()
         {
+            throw new NotImplementedException();
         }
 
-        public void Update()
+        public override void Update()
         {
             throw new NotImplementedException();
         }

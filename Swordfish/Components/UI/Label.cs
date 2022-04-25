@@ -4,11 +4,11 @@ using System.Text;
 using Swordfish.ECS;
 using Swordfish.Core.Rendering;
 using Swordfish.Core;
-using OpenTK.Mathematics;
+using Swordfish.Core.Math;
 
 namespace Swordfish.Components.UI
 {
-    public class Label : IComponent
+    public class Label : Component
     {
         private TextStyle _style;
         public string Text { get; set; }
@@ -53,10 +53,10 @@ namespace Swordfish.Components.UI
         }
 
 
-        public void OnLoad()
+        public override void OnLoad()
         {
         }
-        public void Update()
+        public override void Update()
         {
         }
     }

@@ -10,6 +10,8 @@ using Swordfish.Components;
 using System.Drawing;
 using Swordfish.ImGui;
 using Swordfish.Scripting;
+using Swordfish.Prefabs;
+using Swordfish.Core.Math;
 
 namespace EntityTesting
 {
@@ -25,10 +27,24 @@ namespace EntityTesting
         }
         public override void OnLoad()
         {
+            // Create our prefab
+            ContextButton ButtonPrefab = new ContextButton("../../../Resources/normal.png", "1", 0, 0, 0, 0, 0);
+
             FontLibrary lib = new FontLibrary();
-            ContextButton Button = new ContextButton("C:\\Users\\Logan\\Pictures\\buttons\\normal.png", "1",300,100,0,0,0);
-            ContextButton Button2 = new ContextButton("C:\\Users\\Logan\\Pictures\\buttons\\normal.png", "2", 100, 200, 100, 100, 0);
-            ContextButton Button3 = new ContextButton("C:\\Users\\Logan\\Pictures\\buttons\\normal.png", "3", 700, 200, 600, 100, 0);
+            Entity Button = ButtonPrefab.Instantiate();
+            Button.GetComponent<Button>().Width = 300;
+            Button.GetComponent<Button>().Height = 100;
+
+            Entity Button2 = ButtonPrefab.Instantiate();
+            Button2.GetComponent<Button>().Width = 100;
+            Button2.GetComponent<Button>().Height = 200;
+            Button2.GetComponent<Transform>().Position = new Vector3(100, 100, 0);
+
+            Entity Button3 = ButtonPrefab.Instantiate();
+            Button3.GetComponent<Button>().Width = 700;
+            Button3.GetComponent<Button>().Height = 200;
+            Button3.GetComponent<Transform>().Position = new Vector3(600, 100, 0);
+
             this.GameScene.Entities.Add(Button);
             this.GameScene.Entities.Add(Button2);
             this.GameScene.Entities.Add(Button3);
@@ -56,8 +72,8 @@ namespace EntityTesting
         public override void OnLoad()
         {
             FontLibrary fontLibrary = new FontLibrary();
-            Label label = new Label("Hello World!", 1.2F, new OpenTK.Mathematics.Vector3(0,0,0), fontLibrary);
-            Label label2 = new Label("Hello World!", 1.2F, new OpenTK.Mathematics.Vector3(0, 0, 0), fontLibrary);
+            Label label = new Label("Hello World!", 1.2F, new Vector3(0,0,0), fontLibrary);
+            Label label2 = new Label("Hello World!", 1.2F, new Vector3(0, 0, 0), fontLibrary);
             Entity buttonEntity = new Entity();
             buttonEntity.AddComponent(label2);
             Entity chainTest = new Entity();

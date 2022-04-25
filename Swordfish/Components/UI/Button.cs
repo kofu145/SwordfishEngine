@@ -5,63 +5,45 @@ using Swordfish.ECS;
 using OpenTK.Graphics;
 using Swordfish.Components;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 using Swordfish.Core.Rendering;
 using Swordfish.Core;
+using Swordfish.Core.Math;
 
 namespace Swordfish.Components.UI
 {
     ///<summary>
     /// basic context button with width, height, x position, y position and title
     ///</summary>
-    public class ContextButton : Entity
+    public class Button : Component
     {
-        public Transform ButtonTransform = new Transform();
-        public Sprite ButtonSprite;
-        public Sprite Hovered = new Sprite("C:\\Users\\Logan\\Pictures\\buttons\\hovered.png");
-        public Label ButtonLabel;
-        public int xpos;
-        public int ypos;
+
         public int Width;
         public int Height;
-        public UI_ID identifier = new UI_ID();
-        public ContextButton(String filepath, String title, int width, int height, int xPos, int yPos, int zPos)
+        public Button(int width, int height)
         {
-            xpos = xPos;
-            ypos = yPos;
             Width = width;
             Height = height;
-            ButtonSprite = new Sprite(filepath);
-            // weight font size to h, w 
-            ButtonLabel = new Label(title, 1.2f, (1, 0, 0), new Core.FontLibrary());
-            ButtonTransform.Position = ((xPos-640)+width/2, (-yPos+360)-height/2, zPos);
-            // crazy magic to map the button's texture to it's selected width
-            ButtonTransform.Scale = ((float)width / ButtonSprite.Width, (float)height / ButtonSprite.Height);
-            this.AddComponent(ButtonSprite).AddComponent(ButtonLabel).AddComponent(ButtonTransform).AddComponent(identifier);
         }
-        public void Update()
+        public override void OnLoad()
         {
+        }
+
+        public override void Update()
+        {
+            
+            var transform = ParentEntity.GetComponent<Transform>();
+            var animation = ParentEntity.GetComponent<Animation>();
             Vector2 mousePos = InputManager.Instance.mousePos;
-            if (mousePos.X > xpos && mousePos.X < xpos + Width && mousePos.Y > ypos && mousePos.Y < ypos + Height)
+            if (mousePos.X > transform.Position.X && mousePos.X < transform.Position.X + Width &&
+                mousePos.Y > transform.Position.Y && mousePos.Y < transform.Position.Y + Height)
             {
-                this.AddComponent(Hovered);
+                animation.SetTexture(1);
             }
             else
             {
-                this.AddComponent(ButtonSprite);
+                animation.SetTexture(0);
             }
-           // if (mousePos.X < 
+           // if (mousePos.X < */
         }
     }
-    public class UI_ID : IComponent
-    {
-        public void OnLoad()
-        {
-        }
-
-        public void Update()
-        {
-        }
-    }
-
 }

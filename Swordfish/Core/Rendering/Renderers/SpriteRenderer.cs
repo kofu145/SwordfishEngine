@@ -19,9 +19,6 @@ namespace Swordfish.Core.Rendering.Renderers
         private int vertexBufferObject;
         private int vertexArrayObject;
 
-        private int vertexLocation;
-        private int texCoordLocation;
-
         private Shader shader;
 
         private int elementBufferObject;

@@ -70,15 +70,7 @@ namespace Swordfish.Core.Rendering
             Interpreter.UpdateHandle.Set();
             GameStateManager.Instance.Draw();
             SwapBuffers();
-            //ui test stuff
-            var uiEntities = currentScene.Entities
-                .Where(e => e.HasComponent<Sprite>())
-                .Where(e => e.HasComponent<Transform>())
-                .Where(e => e.HasComponent<UI_ID>());
-            foreach (ContextButton entity in uiEntities)
-            {
-                entity.Update();
-            }
+            
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {

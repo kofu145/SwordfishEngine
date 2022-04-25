@@ -194,6 +194,12 @@ namespace Swordfish.Core.Audio
             AL.Source(sources[channel], ALSourcef.Gain, volume);
         }
 
+        public void SetMasterVolume(float volume)
+        {
+            this.volume = volume;
+            AL.Listener(ALListenerf.Gain, this.volume);
+        }
+
         public void SetPitch(Audio audio)
         {
             AL.Source(sources[Array.IndexOf(channels, audio)], ALSourcef.Pitch, audio.pitch);

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Swordfish.ECS;
 using Swordfish.Core.Rendering;
-using OpenTK.Mathematics;
+using Swordfish.Core.Math;
 
 namespace Swordfish.Components
 {
-    public class Camera : IComponent
+    public class Camera : Component
     {
         internal GameCamera gameCamera;
         public bool AutoSetCameraSize;
@@ -39,12 +39,12 @@ namespace Swordfish.Components
             gameCamera.WindowSize = new Vector2(x, y);
         }
 
-        public void OnLoad()
+        public override void OnLoad()
         {
             throw new NotImplementedException();
         }
 
-        public void Update()
+        public override void Update()
         {
             throw new NotImplementedException();
         }

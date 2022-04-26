@@ -31,11 +31,19 @@ namespace TestGameProject
             GameScene.SetBackgroundImage("../../../Resources/washington.png");
 
             Prefab testPrefab = new Prefab();
-            string[] thing = { "../../../Resources/towa.png" };
-            testPrefab.AddComponent(new Animation(thing));
-            testPrefab.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
-            testPrefab.GetComponent<Animation>().SetTexture(0);
-            this.GameScene.Entities.Add(testPrefab.Instantiate());
+            Entity testOne = testPrefab.Instantiate();
+            string[] thing = { "../../../Resources/fubuki.png" };
+            testOne.AddComponent(new Animation(thing));
+            testOne.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
+            testOne.GetComponent<Animation>().SetTexture(0);
+
+            Entity testTwo = testPrefab.Instantiate();
+            testTwo.AddComponent(new Animation(thing));
+            testTwo.AddComponent(new Transform(100f, 100f, 0f, 0f, 0f, 0f, 1f, 1f));
+            testTwo.GetComponent<Animation>().SetTexture(0);
+
+            this.GameScene.Entities.Add(testOne);
+            this.GameScene.Entities.Add(testTwo);
 
 
             testEntity = new Entity();

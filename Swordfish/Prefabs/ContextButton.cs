@@ -16,11 +16,11 @@ namespace Swordfish.Prefabs
             Label ButtonLabel;
             Sprite ButtonSprite = new Sprite(filepath);
             Animation ButtonSprites = new Animation(ButtonFilePaths);
-            Button ButtonComponent = new Button(width, height);
+            Button ButtonComponent = new Button(xPos, yPos, width, height);
 
             // weight font size to h, w 
             ButtonLabel = new Label(title, 1.2f, new Vector3(1, 0, 0), new Core.FontLibrary());
-            ButtonTransform.Position = new Vector3((xPos-640) + width / 2, (-yPos + 360) - height / 2, zPos);
+            ButtonTransform.Position = new Vector3((xPos - 640) + width / 2, (-yPos + 360) - height / 2, zPos);
             // crazy magic to map the button's texture to it's selected width
             ButtonTransform.Scale = new Vector2((float)width / ButtonSprite.Width, (float)height / ButtonSprite.Height);
 

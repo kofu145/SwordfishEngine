@@ -19,7 +19,10 @@ namespace Swordfish.Components.UI
 
         public int Width;
         public int Height;
-        public Button(int width, int height)
+        private int xPos;
+        private int yPos;
+
+        public Button(int xPos, int yPos, int width, int height)
         {
             Width = width;
             Height = height;
@@ -30,12 +33,11 @@ namespace Swordfish.Components.UI
 
         public override void Update()
         {
-            
             var transform = ParentEntity.GetComponent<Transform>();
             var animation = ParentEntity.GetComponent<Animation>();
             Vector2 mousePos = InputManager.Instance.mousePos;
-            if (mousePos.X > transform.Position.X && mousePos.X < transform.Position.X + Width &&
-                mousePos.Y > transform.Position.Y && mousePos.Y < transform.Position.Y + Height)
+            if (mousePos.X > xPos && mousePos.X < xPos + Width &&
+                mousePos.Y > yPos && mousePos.Y < yPos + Height)
             {
                 animation.SetTexture(1);
             }

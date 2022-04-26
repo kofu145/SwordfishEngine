@@ -28,7 +28,7 @@ namespace EntityTesting
         public override void OnLoad()
         {
             // Create our prefab
-            ContextButton ButtonPrefab = new ContextButton("../../../Resources/normal.png", "1", 0, 0, 0, 0, 0);
+            ContextButton ButtonPrefab = new ContextButton("../../../Resources/normal.png", "342", 0, 0, 0, 0, 0);
 
             FontLibrary lib = new FontLibrary();
             Entity Button = ButtonPrefab.Instantiate();
@@ -77,7 +77,7 @@ namespace EntityTesting
             Entity buttonEntity = new Entity();
             buttonEntity.AddComponent(label2);
             Entity chainTest = new Entity();
-            Sprite image = new Sprite("F:\\Downloads\\IMG_20220330_181604.jpg");
+            Sprite image = new Sprite("../../../Resources/normal.png");
             chainTest.AddComponent(new Transform()).AddComponent(label).AddComponent(image);
             Interpreter.Instance.createScript("testScript.py", new Entity[] { chainTest });
             Console.WriteLine("?" + chainTest.HasComponent<Transform>());

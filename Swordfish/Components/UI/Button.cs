@@ -19,10 +19,14 @@ namespace Swordfish.Components.UI
 
         public int Width;
         public int Height;
-        public Button(int width, int height)
+        public int xPos;
+        public int yPos;
+        public Button(int width, int height, int x, int y)
         {
             Width = width;
             Height = height;
+            xPos = x;
+            yPos = y;
         }
         public override void OnLoad()
         {
@@ -34,16 +38,17 @@ namespace Swordfish.Components.UI
             var transform = ParentEntity.GetComponent<Transform>();
             var animation = ParentEntity.GetComponent<Animation>();
             Vector2 mousePos = InputManager.Instance.mousePos;
-            if (mousePos.X > transform.Position.X && mousePos.X < transform.Position.X + Width &&
-                mousePos.Y > transform.Position.Y && mousePos.Y < transform.Position.Y + Height)
+            if (mousePos.X > xPos && mousePos.X < xPos + Width &&
+                mousePos.Y > yPos && mousePos.Y < yPos + Height)
             {
+                Console.WriteLine("!!");
                 animation.SetTexture(1);
             }
             else
             {
                 animation.SetTexture(0);
             }
-           // if (mousePos.X < */
+
         }
     }
 }

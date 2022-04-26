@@ -28,26 +28,16 @@ namespace EntityTesting
         public override void OnLoad()
         {
             // Create our prefab
-            ContextButton ButtonPrefab = new ContextButton("../../../Resources/normal.png", "1", 0, 0, 0, 0, 0);
+            ContextButton ButtonPrefab = new ContextButton("C:\\Users\\Logan\\Pictures\\buttons\\normal.png", "1", 300, 100, 0, 0, 0);
 
             FontLibrary lib = new FontLibrary();
             Entity Button = ButtonPrefab.Instantiate();
-            Button.GetComponent<Button>().Width = 300;
-            Button.GetComponent<Button>().Height = 100;
 
-            Entity Button2 = ButtonPrefab.Instantiate();
-            Button2.GetComponent<Button>().Width = 100;
-            Button2.GetComponent<Button>().Height = 200;
-            Button2.GetComponent<Transform>().Position = new Vector3(100, 100, 0);
 
-            Entity Button3 = ButtonPrefab.Instantiate();
-            Button3.GetComponent<Button>().Width = 700;
-            Button3.GetComponent<Button>().Height = 200;
-            Button3.GetComponent<Transform>().Position = new Vector3(600, 100, 0);
+ 
 
             this.GameScene.Entities.Add(Button);
-            this.GameScene.Entities.Add(Button2);
-            this.GameScene.Entities.Add(Button3);
+
         }        
         public override void OnUnload()
         {

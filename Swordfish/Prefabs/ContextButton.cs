@@ -9,12 +9,12 @@ namespace Swordfish.Prefabs
 {
     public class ContextButton : Prefab
     {
-        public ContextButton(string filepath, string title, int width, int height, int xPos, int yPos, int zPos)
+        public ContextButton(string[] filepath, string title, int width, int height, int xPos, int yPos, int zPos)
         {
-            string[] ButtonFilePaths = { filepath, "../../../Resources/hovered.png" };
+            string[] ButtonFilePaths = filepath;
             Transform ButtonTransform = new Transform();
             Label ButtonLabel;
-            Sprite ButtonSprite = new Sprite(filepath);
+            Sprite ButtonSprite = new Sprite(filepath[0]);
             Animation ButtonSprites = new Animation(ButtonFilePaths);
             Button ButtonComponent = new Button(width, height, xPos, yPos);
 
@@ -25,7 +25,8 @@ namespace Swordfish.Prefabs
             ButtonTransform.Scale = new Vector2((float)width / ButtonSprite.Width, (float)height / ButtonSprite.Height);
 
             AddComponent(ButtonSprites).AddComponent(ButtonLabel).AddComponent(ButtonTransform).AddComponent(ButtonComponent);
-            //ButtonSprites.SetTexture(0);
+
+            ButtonSprites.SetTexture(0);
         }
     }
 }

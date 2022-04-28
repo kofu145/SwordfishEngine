@@ -28,7 +28,7 @@ namespace EntityTesting
         public override void OnLoad()
         {
             // Create our prefab
-            ContextButton ButtonPrefab = new ContextButton("../../../Resources/normal.png", "1", 300, 100, 0, 0, 0);
+            ContextButton ButtonPrefab = new ContextButton(new string[]{"../../../Resources/normal.png", "../../../Resources/hovered.png", "../../../Resources/pressed.png" }, "1", 300, 100, 0, 0, 0);
 
             FontLibrary lib = new FontLibrary();
             Entity Button = ButtonPrefab.Instantiate();

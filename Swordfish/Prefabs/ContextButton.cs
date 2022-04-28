@@ -11,7 +11,7 @@ namespace Swordfish.Prefabs
     {
         public ContextButton(string filepath, string title, int width, int height, int xPos, int yPos, int zPos)
         {
-            string[] ButtonFilePaths = { filepath, "C:\\Users\\Logan\\Pictures\\buttons\\hovered.png" };
+            string[] ButtonFilePaths = { filepath, "../../../Resources/hovered.png" };
             Transform ButtonTransform = new Transform();
             Label ButtonLabel;
             Sprite ButtonSprite = new Sprite(filepath);
@@ -25,7 +25,7 @@ namespace Swordfish.Prefabs
             ButtonTransform.Scale = new Vector2((float)width / ButtonSprite.Width, (float)height / ButtonSprite.Height);
 
             AddComponent(ButtonSprites).AddComponent(ButtonLabel).AddComponent(ButtonTransform).AddComponent(ButtonComponent);
-            ButtonSprites.SetTexture(0);
+            //ButtonSprites.SetTexture(0);
         }
     }
 }

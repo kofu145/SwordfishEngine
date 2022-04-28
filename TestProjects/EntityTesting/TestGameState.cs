@@ -23,18 +23,18 @@ namespace EntityTesting
         public override void Initialize()
         {
             Camera C = new Camera();
-            this.GameScene.Entities.Add(new Entity(C));
+            this.GameScene.Entities.Add(new Entity(C).AddComponent(new Transform()));
         }
         public override void OnLoad()
         {
             // Create our prefab
-            ContextButton ButtonPrefab = new ContextButton("C:\\Users\\Logan\\Pictures\\buttons\\normal.png", "1", 300, 100, 0, 0, 0);
+            ContextButton ButtonPrefab = new ContextButton("../../../Resources/normal.png", "1", 300, 100, 0, 0, 0);
 
             FontLibrary lib = new FontLibrary();
             Entity Button = ButtonPrefab.Instantiate();
 
 
- 
+
 
             this.GameScene.Entities.Add(Button);
 

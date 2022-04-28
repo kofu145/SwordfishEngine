@@ -22,7 +22,7 @@ namespace EntityTesting
         }
         static void createWindow()
         {
-            testGame = new Game(1280, 720, "Test client", new TestGameState());
+            testGame = new Game(1280, 720, "Test client", gameState);
         }
     }
 }

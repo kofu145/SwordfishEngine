@@ -13,6 +13,7 @@ namespace Swordfish.Components
     public class Animation : Component
     {
         private List<Texture> textures = new List<Texture>();
+        private int? textureId;
         public Animation(string[] filePaths)
         {
             foreach(string i in filePaths)
@@ -23,7 +24,12 @@ namespace Swordfish.Components
 
         public void SetTexture(int textureId)
         {
-            ParentEntity.AddComponent(new Sprite(textures[textureId]));
+            // only change texture if we know the "to render" texture has changed
+            if (textureId != this.textureId)
+            {
+                ParentEntity.AddComponent(new Sprite(textures[textureId]));
+                this.textureId = textureId;
+            }
         }
 
         public override void OnLoad()

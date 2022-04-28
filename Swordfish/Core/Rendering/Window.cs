@@ -53,6 +53,13 @@ namespace Swordfish.Core.Rendering
                 cameraComponent.SetCameraBounds(Size.X, Size.Y);
             }
             GameStateManager.Instance.OnLoad();
+            foreach (var entity in GameStateManager.Instance.GetScreen().GameScene.Entities)
+            {
+                foreach (var component in entity.GetComponents())
+                {
+                    component.OnLoad();
+                }
+            }
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {

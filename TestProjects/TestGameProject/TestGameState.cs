@@ -13,6 +13,7 @@ namespace TestGameProject
     {
 
         private Entity testEntity;
+        private Entity testOne;
         private FontLibrary arial;
 
         public override void Initialize()
@@ -31,10 +32,10 @@ namespace TestGameProject
             GameScene.SetBackgroundImage("../../../Resources/washington.png");
 
             Prefab testPrefab = new Prefab();
-            Entity testOne = testPrefab.Instantiate();
-            string[] thing = { "../../../Resources/fubuki.png" };
+            testOne = testPrefab.Instantiate();
+            string[] thing = { "../../../Resources/fubuki.png", "../../../Resources/towa.png" };
             testOne.AddComponent(new Animation(thing));
-            testOne.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
+            testOne.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, .2f, .2f));
             testOne.GetComponent<Animation>().SetTexture(0);
 
             Entity testTwo = testPrefab.Instantiate();
@@ -94,7 +95,7 @@ namespace TestGameProject
         public override void Update()
         {
             testEntity.GetComponent<Transform>().Rotation.Z+= 5f;
-            
+            testOne.GetComponent<Animation>().SetTexture(1);
         }
     }
 }

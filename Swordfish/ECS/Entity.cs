@@ -83,6 +83,14 @@ namespace Swordfish.ECS
                 copyComponents.TryAdd(entry.Key, entry.Value);
             }
             Entity copyEntity = new Entity(copyComponents);
+            
+            // need to reset parent references
+            foreach(IComponent entry in copyComponents.Values)
+            {
+                entry.ApplyNewCopyParent(copyEntity);
+            }
+
+
             return copyEntity;
         }
 

@@ -18,6 +18,12 @@ namespace Swordfish.ECS
 
         public abstract void Update();
 
+        // sparse definition for now
+        public void ApplyNewCopyParent(Entity entity)
+        {
+            ParentEntity = entity;
+        }
+
         public void SetParent(Entity entity)
         {
             if (ParentEntity != null)

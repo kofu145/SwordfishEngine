@@ -21,27 +21,29 @@ namespace Swordfish.Components.UI
         public int Height;
         public int xPos;
         public int yPos;
+        private Animation animation;
+
         public Button(int width, int height, int x, int y)
         {
             Width = width;
             Height = height;
             xPos = x;
             yPos = y;
+
         }
         public override void OnLoad()
         {
+            animation = ParentEntity.GetComponent<Animation>();
+
         }
 
-        public override void Update()
-        {
-            
-            var transform = ParentEntity.GetComponent<Transform>();
-            var animation = ParentEntity.GetComponent<Animation>();
+        public override void Update() {
+
+
             Vector2 mousePos = InputManager.Instance.mousePos;
             if (mousePos.X > xPos && mousePos.X < xPos + Width &&
                 mousePos.Y > yPos && mousePos.Y < yPos + Height)
             {
-                Console.WriteLine("!!");
                 animation.SetTexture(1);
             }
             else

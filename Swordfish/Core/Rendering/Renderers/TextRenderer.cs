@@ -152,7 +152,7 @@ namespace Swordfish.Core.Rendering.Renderers
                     model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
                     model *= Matrix4.CreateTranslation(new Vector3(xrel, yrel, 0.0f));
                     // origin
-                    model *= Matrix4.CreateTranslation(new Vector3(transformComponent.Position.X-totalWidth/2, transformComponent.Position.Y, 0.0f));
+                    model *= Matrix4.CreateTranslation(new Vector3(transformComponent.Position.X-totalWidth/2, transformComponent.Position.Y-ch.Size.Y/2, 0.0f));
 
 
                     shader.SetMatrix4("model", model);

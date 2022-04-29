@@ -26,7 +26,9 @@ namespace Swordfish.Core.Rendering
 
         public FontTexture(TextureUnit texUnit, string font)
         {
+            Console.WriteLine("got to before loading fonttype library!");
             ftLibrary = new Library();
+            Console.WriteLine("successfully instantiated!");
 
             Face face = new Face(ftLibrary, font);
 

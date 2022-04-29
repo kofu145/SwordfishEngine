@@ -43,14 +43,14 @@ namespace TestGameProject
             testTwo.AddComponent(new Transform(100f, 100f, 0f, 0f, 0f, 0f, 1f, 1f));
             testTwo.GetComponent<Animation>().SetTexture(0);
 
-            this.GameScene.Entities.Add(testOne);
-            this.GameScene.Entities.Add(testTwo);
+            //this.GameScene.Entities.Add(testOne);
+            //this.GameScene.Entities.Add(testTwo);
 
 
             testEntity = new Entity();
             testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png", 255f, 255f, 255f));
             testEntity.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
-            testEntity.AddComponent(new Sound("../../../Resources/test.wav", .5f));
+            testEntity.AddComponent(new Sound("../../../Resources/applause.wav", .5f));
             this.GameScene.Entities.Add(testEntity);
             testEntity.GetComponent<Sound>().Play();
 

@@ -7,7 +7,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
 using Swordfish.Core.Math;
 
-namespace Swordfish.Core
+namespace Swordfish.Core.Input
 {
     public class InputManager
     {
@@ -70,11 +70,11 @@ namespace Swordfish.Core
         }
 
         public bool GetMouseButtonDown(MouseButton button){
-            return mouseState.IsButtonDown(button);
+            return mouseState.IsButtonDown((OpenTK.Windowing.GraphicsLibraryFramework.MouseButton)button);
         }
 
         public bool GetMouseButtonWasDown(MouseButton button){
-            return mouseState.WasButtonDown(button);
+            return mouseState.WasButtonDown((OpenTK.Windowing.GraphicsLibraryFramework.MouseButton)button);
         }
 
         public bool GetIsAnyMouseKeyDown(){

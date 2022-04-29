@@ -7,6 +7,7 @@ using Swordfish.Components;
 using OpenTK.Graphics.OpenGL4;
 using Swordfish.Core.Rendering;
 using Swordfish.Core;
+using Swordfish.Core.Input;
 using Swordfish.Core.Math;
 
 namespace Swordfish.Components.UI
@@ -46,7 +47,7 @@ namespace Swordfish.Components.UI
                     StartHover();
                 }
                 // check if mouse button is down
-                if (InputManager.Instance.GetMouseButtonDown(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton.Left))
+                if (InputManager.Instance.GetMouseButtonDown(MouseButton.Left))
                 {
                     // if is down and not pressed = false then call mousepressed
                     if (!isPressed)
@@ -68,7 +69,7 @@ namespace Swordfish.Components.UI
                 }
             }
             // check if mouse is not pressed 
-            if (!InputManager.Instance.GetMouseButtonDown(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton.Left))
+            if (!InputManager.Instance.GetMouseButtonDown(MouseButton.Left))
             {
                 // if not pressed and flag is currently set true then call not pressed function
                 if (isPressed)

@@ -28,17 +28,46 @@ namespace EntityTesting
         public override void OnLoad()
         {
             // Create our prefab
-            ContextButton ButtonPrefab = new ContextButton(new string[]{"../../../Resources/normal.png", "../../../Resources/hovered.png", "../../../Resources/pressed.png" }, "1", 300, 100, 0, 0, 0);
+            ContextButton ButtonPrefab = new ContextButton(new string[] { "../../../Resources/normal.png", "../../../Resources/hovered.png", "../../../Resources/pressed.png" }, "1", 300, 100, 0, 0, 0);
 
             FontLibrary lib = new FontLibrary();
             Entity Button = ButtonPrefab.Instantiate();
+            var buttonComp = Button.GetComponent<Button>();
+            buttonComp.OnButtonDown += () =>
+            {
+                // whatever you want to happen OnPress
+                var animation = buttonComp.ParentEntity.GetComponent<Animation>();
+                animation.SetTexture(2);
+            };
 
+            buttonComp.OnButtonUp += () =>
+            {
+                var animation = buttonComp.ParentEntity.GetComponent<Animation>();
+                if (buttonComp.isHovered)
+                {
+                    animation.SetTexture(1);
+                }
+                else
+                {
+                    animation.SetTexture(0);
+                }
+            };
 
+            buttonComp.OnHover += () =>
+            {
+                var animation = buttonComp.ParentEntity.GetComponent<Animation>();
+                animation.SetTexture(1);
+            };
 
+            buttonComp.OnStopHover += () =>
+            {
+                var animation = buttonComp.ParentEntity.GetComponent<Animation>();
+                animation.SetTexture(0);
+            };
 
             this.GameScene.Entities.Add(Button);
 
-        }        
+        }
         public override void OnUnload()
         {
 

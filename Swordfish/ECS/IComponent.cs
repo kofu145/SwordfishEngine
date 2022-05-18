@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Swordfish.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,8 @@ namespace Swordfish.ECS
         public Entity ParentEntity { get; }
         public void OnLoad();
 
-        public void Update();
+        // update might want scene?
+        public void Update(GameTime gameTime);
 
         public void SetParent(Entity parentEntity);
 

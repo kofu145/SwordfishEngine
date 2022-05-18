@@ -11,12 +11,25 @@ using Swordfish.Core.Input;
 using Swordfish.Core.Math;
 
 namespace Swordfish.Components.UI
+
+    // todo: rework a lot of this with pure references to comps in order to allow for easy access w/out prefab
 {
     ///<summary>
     /// basic context button with width, height, x position, y position and title
     ///</summary>
     public class Button : Component
     {
+        public event OnPress OnButtonDown;
+        public event OnDepress OnButtonUp;
+
+        public event OnStartHover OnHover;
+        public event OnEndHover OnStopHover;
+
+        public delegate void OnPress();
+        public delegate void OnDepress();
+        public delegate void OnStartHover();
+        public delegate void OnEndHover();
+
         public bool isHovered = false;
         public bool isPressed = false;
         public int Width;
@@ -33,7 +46,7 @@ namespace Swordfish.Components.UI
         public override void OnLoad()
         {
         }
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             Vector2 mousePos = InputManager.Instance.mousePos;
             // check if mouse in bounds
@@ -44,7 +57,8 @@ namespace Swordfish.Components.UI
                 if (!isHovered)
                 {
                     isHovered = true;
-                    StartHover();
+                    OnHover?.Invoke();
+                    //StartHover();
                 }
                 // check if mouse button is down
                 if (InputManager.Instance.GetMouseButtonDown(MouseButton.Left))
@@ -53,9 +67,10 @@ namespace Swordfish.Components.UI
                     if (!isPressed)
                     {
                     isPressed = true;
-                    StartPress();
+                    OnButtonDown?.Invoke();
+                    //StartPress();
                     }
-                   
+
                 }
             }
             // if mouse is not in bounds
@@ -65,7 +80,8 @@ namespace Swordfish.Components.UI
                 if (isHovered)
                 {
                     isHovered = false;
-                    StopHover();
+                    OnStopHover?.Invoke();
+                    //StopHover();
                 }
             }
             // check if mouse is not pressed 
@@ -75,28 +91,31 @@ namespace Swordfish.Components.UI
                 if (isPressed)
                 {
                     isPressed = false;
-                    StopPress();
+                    OnButtonUp?.Invoke();
+                    //StopPress();
                 } 
             }
         }
-        public void StartHover()
+        // made these private, because I don't see many reasons you'd force them to trigger?
+        // If you do, sounds like bad architectural design on user end
+
+        private void StartHover()
         {
             var animation = ParentEntity.GetComponent<Animation>();
             animation.SetTexture(1);
         }
-        public void StopHover()
+        private void StopHover()
         {
             var animation = ParentEntity.GetComponent<Animation>();
             animation.SetTexture(0);
         }
-        public void StartPress()
+        private void StartPress()
         {
-
             var animation = ParentEntity.GetComponent<Animation>();
             animation.SetTexture(2);
 
         }
-        public void StopPress()
+        private void StopPress()
         {
             var animation = ParentEntity.GetComponent<Animation>();
             if (isHovered)

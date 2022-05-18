@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Swordfish.ECS;
 using Swordfish.Core.Audio;
 using System.IO;
+using Swordfish.Core;
 
 namespace Swordfish.Components
 {
@@ -37,7 +38,6 @@ namespace Swordfish.Components
                     break;
                 default:
                     throw new Exception("The specified audio file isn't supported!");
-                    break;
             }
         }
 
@@ -80,7 +80,7 @@ namespace Swordfish.Components
         {
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
         }
     }

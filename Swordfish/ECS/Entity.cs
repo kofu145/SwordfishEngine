@@ -75,10 +75,10 @@ namespace Swordfish.ECS
 
             // easy simpler code for deepcopy, for now, will have to eventually add json serialization support
             var copyComponents = new ConcurrentDictionary<Type, IComponent>();
-            Console.WriteLine(components.Count);
+            // Console.WriteLine(components.Count);
             foreach (KeyValuePair<Type, IComponent> entry in this.components)
             {
-                Console.WriteLine(entry.Key);
+                // Console.WriteLine(entry.Key);
 
                 copyComponents.TryAdd(entry.Key, entry.Value);
             }

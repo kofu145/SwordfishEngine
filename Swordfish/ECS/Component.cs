@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Swordfish.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Swordfish.ECS
 
         public abstract void OnLoad();
 
-        public abstract void Update();
+        public abstract void Update(GameTime gameTime);
 
         // sparse definition for now
         public void ApplyNewCopyParent(Entity entity)

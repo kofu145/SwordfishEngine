@@ -36,7 +36,7 @@ namespace Swordfish.Core
         /// <summary>
         /// Called on a fixed timestep. This should include your game logic.
         /// </summary>
-        void Update();
+        void Update(GameTime gameTime);
 
         /// <summary>
         /// The rendering call, called before Update. Draw calls for rendering sprites should be called here.

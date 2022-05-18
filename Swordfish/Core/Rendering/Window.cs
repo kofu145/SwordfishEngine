@@ -26,6 +26,7 @@ namespace Swordfish.Core.Rendering
         private TextRenderer textRenderer;
         private BackgroundRenderer backgroundRenderer;
         private Camera cameraComponent;
+        private GameTime gameTime;
 
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, IGameState initialGameState)
             : base(gameWindowSettings, nativeWindowSettings)
@@ -33,6 +34,7 @@ namespace Swordfish.Core.Rendering
             GameStateManager.Instance.AddScreen(initialGameState);
             InputManager.Instance.SetSystemStates(KeyboardState, MouseState);
             AudioManager.Instance.Initialize(64, .2f);
+            gameTime = new GameTime(0, 0);
         }
         protected override void OnLoad()
         {
@@ -84,12 +86,14 @@ namespace Swordfish.Core.Rendering
             // for all entities run update
             // for all scripts run update
             base.OnUpdateFrame(e);
-            GameStateManager.Instance.Update();
+            gameTime.UpdateTime(e.Time);
+            var currentScene = GameStateManager.Instance.GetScreen().GameScene;
+            GameStateManager.Instance.Update(gameTime);
             foreach (var entity in GameStateManager.Instance.GetScreen().GameScene.Entities)
             {
                 foreach (var component in entity.GetComponents())
                 {
-                    component.Update();
+                    component.Update(gameTime);
                 }
             }
         }

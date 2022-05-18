@@ -98,11 +98,11 @@ namespace Swordfish.Core
         /// <summary>
         /// Updates the top screen of the stack.
         /// </summary>
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             if (screens.Count > 0)
             {
-                screens.Peek().Update();
+                screens.Peek().Update(gameTime);
 
             }
         }

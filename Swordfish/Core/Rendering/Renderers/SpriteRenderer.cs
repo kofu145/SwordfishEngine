@@ -113,7 +113,10 @@ namespace Swordfish.Core.Rendering.Renderers
             //GL.Enable(EnableCap.)
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            
+            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+            // GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Lines);
+
+
 
             //GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
             //GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Swordfish.Core;
 using Swordfish.ECS;
 
 
@@ -29,7 +30,7 @@ namespace Swordfish.Components.UI
         public override void OnLoad()
         {   
         }
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
         }
     }

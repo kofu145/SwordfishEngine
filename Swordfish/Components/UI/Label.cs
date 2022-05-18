@@ -56,7 +56,7 @@ namespace Swordfish.Components.UI
         public override void OnLoad()
         {
         }
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
         }
     }

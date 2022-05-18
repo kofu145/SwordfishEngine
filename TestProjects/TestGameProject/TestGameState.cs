@@ -29,11 +29,11 @@ namespace TestGameProject
 
         public override void OnLoad()
         {
-            GameScene.SetBackgroundImage("../../../Resources/washington.png");
+            GameScene.SetBackgroundImage("./Resources/washington.png");
 
             Prefab testPrefab = new Prefab();
             testOne = testPrefab.Instantiate();
-            string[] thing = { "../../../Resources/fubuki.png", "../../../Resources/towa.png" };
+            string[] thing = { "./Resources/fubuki.png", "./Resources/towa.png" };
             testOne.AddComponent(new Animation(thing));
             testOne.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, .2f, .2f));
             testOne.GetComponent<Animation>().SetTexture(0);
@@ -48,16 +48,16 @@ namespace TestGameProject
 
 
             testEntity = new Entity();
-            testEntity.AddComponent(new Sprite("../../../Resources/fubuki.png", 255f, 255f, 255f));
+            testEntity.AddComponent(new Sprite("./Resources/fubuki.png", 255f, 255f, 255f));
             testEntity.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
-            testEntity.AddComponent(new Sound("../../../Resources/applause.wav", .5f));
+            testEntity.AddComponent(new Sound("./Resources/applause.wav", .5f));
             this.GameScene.Entities.Add(testEntity);
             testEntity.GetComponent<Sound>().Play();
 
             var trans = new Transform(-250f, 0f, 0f, 0f, 180f, 10f, .3f, .3f);
             var towaEntity = new Entity();
             towaEntity
-                .AddComponent(new Sprite("../../../Resources/towa.png"))
+                .AddComponent(new Sprite("./Resources/towa.png"))
                 .AddComponent(trans);
             this.GameScene.Entities.Add(towaEntity);
 
@@ -65,13 +65,13 @@ namespace TestGameProject
 
             var towaEntity2 = new Entity();
             towaEntity2
-                .AddComponent(new Sprite("../../../Resources/towa.png"))
+                .AddComponent(new Sprite("./Resources/towa.png"))
                 .AddComponent(new Transform(250f, 0f, 1f, 0f, 0f, -10f, .3f, .3f));
             this.GameScene.Entities.Add(towaEntity2);
 
             var osuEntity = new Entity();
             osuEntity
-                .AddComponent(new Sprite("../../../Resources/osu.png"))
+                .AddComponent(new Sprite("./Resources/osu.png"))
                 .AddComponent(new Transform(0f, -200f, -.5f, 0f, 0f, 0f, .1f, .1f));
             this.GameScene.Entities.Add(osuEntity);
             
@@ -92,7 +92,7 @@ namespace TestGameProject
 
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             testEntity.GetComponent<Transform>().Rotation.Z+= 5f;
             testOne.GetComponent<Animation>().SetTexture(1);

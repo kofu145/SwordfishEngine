@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL4;
 using Swordfish.Core.Math;
 using Swordfish.ECS;
 using Swordfish.Core.Rendering;
-
+using Swordfish.Core;
 
 namespace Swordfish.Components
 {
@@ -82,7 +82,7 @@ namespace Swordfish.Components
         {
 
         }
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
 
         }

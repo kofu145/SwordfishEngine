@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
 using Swordfish.Components;
+using Swordfish.Core;
 
 namespace Swordfish.ECS
 {
@@ -159,8 +160,11 @@ namespace Swordfish.ECS
         {
             IComponent[] iterableComponents = new IComponent[components.Count];
             components.Values.CopyTo(iterableComponents, 0);
-            return iterableComponents;
+
+            return Utils.QuickSortComponentsArray(iterableComponents, 0, iterableComponents.Length - 1);
+            
         }
 
     }
+
 }

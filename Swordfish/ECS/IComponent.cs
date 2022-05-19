@@ -11,10 +11,17 @@ namespace Swordfish.ECS
     public interface IComponent
     {
         public Entity ParentEntity { get; }
+
+        public int Priority { get; }
+
         public void OnLoad();
 
+        // should be (will be) deprecated in a future release
+        public void EarlyUpdate(GameTime gameTime);
         // update might want scene?
         public void Update(GameTime gameTime);
+
+        public void LateUpdate(GameTime gameTime);
 
         public void SetParent(Entity parentEntity);
 

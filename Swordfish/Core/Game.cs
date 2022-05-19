@@ -28,6 +28,7 @@ namespace Swordfish.Core
 
             using (window = new Window(GameWindowSettings.Default, nativeWindowSettings, initialGameState))
             {
+                window.VSync = VSyncMode.Off;
                 window.Run();
             }
         }

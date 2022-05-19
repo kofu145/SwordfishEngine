@@ -40,6 +40,36 @@ namespace Swordfish.Core.Math
             Z = vector.z;
         }
 
+        public static Vector3 operator +(Vector3 a) => a;
+        public static Vector3 operator -(Vector3 a) => new Vector3(-a.X, -a.Y, -a.Z);
+
+        public static Vector3 operator +(Vector3 a, Vector3 b)
+            => new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+
+        public static Vector3 operator -(Vector3 a, Vector3 b)
+            => new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+
+        public static Vector3 operator *(Vector3 a, float b)
+            => new Vector3(a.X * b, a.Y * b, a.Z * b);
+
+        public static Vector3 operator *(float b, Vector3 a)
+            => new Vector3(a.X * b, a.Y * b, a.Z * b);
+
+        public static Vector3 operator *(Vector3 a, Vector3 b)
+            => new Vector3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
+
+        public static Vector3 operator /(Vector3 a, float b)
+            => new Vector3(a.X / b, a.Y / b, a.Z / b);
+
+        public static Vector3 operator /(Vector3 a, Vector3 b)
+            => new Vector3(a.X / b.X, a.Y / b.Y, a.Z / b.Z);
+
+        public static bool operator ==(Vector3 a, Vector3 b)
+            => a.Equals(b);
+
+        public static bool operator !=(Vector3 a, Vector3 b)
+            => !(a == b);
+
         public static implicit operator OpenTK.Mathematics.Vector3(Vector3 v)
         {
             return new OpenTK.Mathematics.Vector3(v.X, v.Y, v.Z);
@@ -50,7 +80,27 @@ namespace Swordfish.Core.Math
             return new Vector3(v.X, v.Y, v.Z);
         }
 
+        /// <inheritdoc/>
         public override string ToString() => $"({X}, {Y}, {Z})";
 
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return obj is Vector3 && Equals((Vector3)obj);
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(Vector3 other)
+        {
+            return X == other.X &&
+                Y == other.Y &&
+                Z == other.Z;
+        }
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(X, Y, Z);
+        }
     }
+
 }

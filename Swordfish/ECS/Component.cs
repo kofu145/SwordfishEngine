@@ -13,11 +13,17 @@ namespace Swordfish.ECS
         private Entity parentEntity;
         public Entity ParentEntity { get { return parentEntity; } private set { parentEntity = value; } }
 
+        public int Priority { get; set; } = 3;
+
         // these two methods aren't abstract in case the users don't want to define them
 
         public abstract void OnLoad();
 
+        public virtual void EarlyUpdate(GameTime gameTime) { }
+
         public abstract void Update(GameTime gameTime);
+
+        public virtual void LateUpdate(GameTime gameTime) { }
 
         // sparse definition for now
         public void ApplyNewCopyParent(Entity entity)

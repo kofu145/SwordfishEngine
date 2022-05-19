@@ -9,6 +9,13 @@ namespace Swordfish.Core.Math
 {
     public struct Vector2
     {
+        public static Vector2 Zero { get { return new Vector2(0, 0); } private set { } }
+        public static Vector2 Up { get { return new Vector2(0, 1); } private set { } }
+        public static Vector2 Down { get { return new Vector2(0, -1); } private set { } }
+        public static Vector2 Left { get { return new Vector2(-1, 0); } private set { } }
+        public static Vector2 Right { get { return new Vector2(1, 0); } private set { } }
+        public float Length => MathF.Sqrt((X * X) + (Y * Y));
+
         public float X;
         public float Y;
         public Vector2(float x, float y)
@@ -33,6 +40,16 @@ namespace Swordfish.Core.Math
         {
             X = vector.x;
             Y = vector.y;
+        }
+        /// <summary>
+        /// Doesn't work, makes things NaN for some reason. Will fix later.
+        /// </summary>
+        public void Normalize()
+        {
+            var scale = 1.0f / Length;
+            Console.WriteLine(scale);
+            X *= scale;
+            Y *= scale;
         }
 
         public static Vector2 operator +(Vector2 a) => a;
@@ -81,11 +98,11 @@ namespace Swordfish.Core.Math
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return obj is Vector3 && Equals((Vector3)obj);
+            return obj is Vector2 && Equals((Vector2)obj);
         }
 
         /// <inheritdoc/>
-        public bool Equals(Vector3 other)
+        public bool Equals(Vector2 other)
         {
             return X == other.X &&
                 Y == other.Y;

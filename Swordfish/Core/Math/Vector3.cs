@@ -8,6 +8,15 @@ namespace Swordfish.Core.Math
 {
     public struct Vector3
     {
+        public static Vector3 Zero { get { return new Vector3(0, 0, 0); } private set { } }
+        public static Vector3 Up { get { return new Vector3(0, 1, 0); } private set { } }
+        public static Vector3 Down { get { return new Vector3(0, -1, 0); } private set { } }
+        public static Vector3 Forward { get { return new Vector3(0, 0, 1); } private set { } }
+        public static Vector3 Backward { get { return new Vector3(0, 0, -1); } private set { } }
+        public static Vector3 Left { get { return new Vector3(-1, 0, 0); } private set { } }
+        public static Vector3 Right { get { return new Vector3(1, 0, 0); } private set { } }
+        public float Length => MathF.Sqrt((X * X) + (Y * Y) + (Z * Z));
+
         public float X;
         public float Y;
         public float Z;
@@ -38,6 +47,13 @@ namespace Swordfish.Core.Math
             X = vector.x;
             Y = vector.y;
             Z = vector.z;
+        }
+        public void Normalize()
+        {
+            var scale = 1.0f / Length;
+            X *= scale;
+            Y *= scale;
+            Z *= scale;
         }
 
         public static Vector3 operator +(Vector3 a) => a;

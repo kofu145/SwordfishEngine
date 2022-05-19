@@ -11,7 +11,7 @@ namespace Swordfish.Components
 {
     public class Sprite : Component
     {
-        private Texture texture;
+        internal Texture texture;
 
         public int Width => this.texture.Width;
         public int Height => this.texture.Height;

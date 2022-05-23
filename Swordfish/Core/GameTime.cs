@@ -30,7 +30,8 @@ namespace Swordfish.Core
         internal void UpdateTime(double seconds)
         {
             deltaTime = TimeSpan.FromSeconds(seconds);
-            totalTime = stopwatch.Elapsed;
+            //totalTime = stopwatch.Elapsed;
+            totalTime += deltaTime;
         }
 
     }

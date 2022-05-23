@@ -161,6 +161,7 @@ namespace Swordfish.Core.Audio
         /// <returns></returns>
         public AudioState GetAudioState(Audio audio)
         {
+            
             return (AudioState)Enum.Parse(typeof(AudioState), AL.GetSourceState(sources[Array.IndexOf(channels, audio)]).ToString());
         }
 

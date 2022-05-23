@@ -110,9 +110,14 @@ namespace Swordfish.Components
 
             }
 
-            
-            
-  
         }
+
+        public override void OnUnload()
+        {
+            OnEnterCollision = null;
+            OnCollision = null;
+            OnExitCollision = null;
+        }
+
     }
 }

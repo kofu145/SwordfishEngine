@@ -23,6 +23,10 @@ namespace Swordfish.Components
         public float Pitch { get { return audio.pitch; } set { SetPitch(value); } }
         public bool Loops { get { return audio.loops; } set { SetLooping(value); } }
 
+        public AudioState State { get { return audio.state; } private set { } }
+
+        public AudioPriority AudioOrderPriority { get { return audio.priority; } set { audio.priority = value; } }
+
         /// <summary>
         /// A sound component that is set to handle the playing and handling of audio files.
         /// </summary>

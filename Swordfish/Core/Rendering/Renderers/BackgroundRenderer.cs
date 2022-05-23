@@ -115,12 +115,14 @@ namespace Swordfish.Core.Rendering.Renderers
 
                 var dimensions = scene.GetBgDimensions();
                 // Get which side to scale up towards
-                var imageWidth = width / dimensions.X > height / dimensions.Y ? width: dimensions.X * height / dimensions.Y;
-                var imageHeight = height / dimensions.Y > width / dimensions.X ? height : dimensions.Y * width / dimensions.X;
+                //var imageWidth = width / dimensions.X > height / dimensions.Y ? width: dimensions.X * height / dimensions.Y;
+                //var imageHeight = height / dimensions.Y > width / dimensions.X ? height : dimensions.Y * width / dimensions.X;
+                var imageWidth = width;
+                var imageHeight = 1200;
 
                 // Order MUST be scale, rotate, translate.
                 model *= Matrix4.CreateScale(imageWidth, imageHeight, 0f);
-                model *= Matrix4.CreateTranslation(-imageWidth / 2, -imageHeight / 2, -10f);
+                model *= Matrix4.CreateTranslation(-imageWidth / 2 + scene.backgroundOffset.X, -imageHeight / 2 + scene.backgroundOffset.Y, -10f);
                 //model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
 
 

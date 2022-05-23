@@ -23,7 +23,7 @@ namespace EntityTesting
         public override void Initialize()
         {
             Camera C = new Camera();
-            this.GameScene.Entities.Add(new Entity(C).AddComponent(new Transform()));
+            this.GameScene.AddEntity(new Entity(C).AddComponent(new Transform()));
         }
         public override void OnLoad()
         {
@@ -33,6 +33,8 @@ namespace EntityTesting
             FontLibrary lib = new FontLibrary();
             Entity Button = ButtonPrefab.Instantiate();
             var buttonComp = Button.GetComponent<Button>();
+            var animation = buttonComp.ParentEntity.GetComponent<Animation>();
+            animation.SetTexture(0);
             buttonComp.OnButtonDown += () =>
             {
                 // whatever you want to happen OnPress
@@ -65,14 +67,14 @@ namespace EntityTesting
                 animation.SetTexture(0);
             };
 
-            this.GameScene.Entities.Add(Button);
+            this.GameScene.AddEntity(Button);
 
         }
         public override void OnUnload()
         {
 
         }
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
         }
     }
@@ -100,13 +102,13 @@ namespace EntityTesting
             chainTest.AddComponent(new Transform()).AddComponent(label).AddComponent(image);
             Interpreter.Instance.createScript("testScript.py", new Entity[] { chainTest });
             Console.WriteLine("?" + chainTest.HasComponent<Transform>());
-            this.GameScene.Entities.Add(chainTest);
-            this.GameScene.Entities.Add(buttonEntity);
+            this.GameScene.AddEntity(chainTest);
+            this.GameScene.AddEntity(buttonEntity);
         }
         public override void OnUnload()
         {
         }
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
         }
     }

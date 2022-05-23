@@ -4,7 +4,7 @@ using System.Text;
 using Swordfish.ECS;
 using Swordfish.Core.Rendering;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
+using Swordfish.Core.Math;
 
 namespace Swordfish.Core
 {
@@ -16,16 +16,63 @@ namespace Swordfish.Core
         /// <summary>
         /// The list of all entities in the scene.
         /// </summary>
-        public List<Entity> Entities;
+        private List<Entity> entities;
+
+        private List<Entity> entitiesToAdd;
+        private List<Entity> entitiesToDestroy;
+
+        public Vector2 backgroundOffset;
+
+        public IReadOnlyList<Entity> Entities { get { return entities; } }
+
         private Texture backgroundTexture;
         public Scene()
         {
-            Entities = new List<Entity>();
+            entities = new List<Entity>();
+            entitiesToAdd = new List<Entity>();
+            entitiesToDestroy = new List<Entity>();
+            backgroundOffset = new Vector2(0, 0);
+        }
+
+        public void AddEntity(Entity entity)
+        {
+            entitiesToAdd.Add(entity);
+        }
+
+        public void DestroyEntity(Entity entity)
+        {
+            entitiesToDestroy.Add(entity);
+        }
+
+        internal void UpdateEntities()
+        {
+            foreach(var entity in entitiesToAdd)
+            {
+                entities.Add(entity);
+
+                foreach (var component in entity.GetComponents())
+                {
+                    component.OnLoad();
+                }
+
+            }
+
+            foreach(var entity in entitiesToDestroy)
+            {
+                foreach (var component in entity.GetComponents())
+                {
+                    component.OnUnload();
+                }
+                entities.Remove(entity);
+            }
+
+            entitiesToAdd.Clear();
+            entitiesToDestroy.Clear();
         }
 
         public void SetBackgroundImage(string filePath)
         {
-            backgroundTexture = Texture.LoadFromFile(filePath, TextureFilter.linear);
+            backgroundTexture = Texture.LoadFromFile(filePath, TextureFilter.nearest);
         }
 
         internal void BindTexture(TextureUnit textureUnit)

@@ -129,6 +129,8 @@ namespace Swordfish.Core.Rendering.Renderers
             foreach (var entity in spriteEntities) {
                 // Console.WriteLine(entity.id);
                 var spriteComponent = entity.GetComponent<Sprite>();
+                if (!spriteComponent.Enabled)
+                    continue;
                 var transformComponent = entity.GetComponent<Transform>();
 
                 spriteComponent.BindTexture(TextureUnit.Texture0);
@@ -140,7 +142,6 @@ namespace Swordfish.Core.Rendering.Renderers
                 model *= Matrix4.CreateScale(spriteComponent.Width * transformComponent.Scale.X, spriteComponent.Height * transformComponent.Scale.Y, 0f);
 
                 model *= Matrix4.CreateTranslation(-spriteComponent.Origin.X * transformComponent.Scale.X, -spriteComponent.Origin.Y * transformComponent.Scale.Y, 0f);
-
                 model *= Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(transformComponent.Rotation.X));
                 model *= Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Y));
                 model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));

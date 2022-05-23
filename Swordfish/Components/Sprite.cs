@@ -16,9 +16,10 @@ namespace Swordfish.Components
         public int Width => this.texture.Width;
         public int Height => this.texture.Height;
         public Vector2 Origin { get; set; }
-        public Vector3 Color { get; set; }
+        public Vector3 Color { get; private set; }
+        public bool Enabled = true;
 
-        internal Sprite(Texture texture)
+        public Sprite(Texture texture)
         {
             this.texture = texture;
             this.Origin = new Vector2(Width / 2, Height / 2);
@@ -78,6 +79,11 @@ namespace Swordfish.Components
             this.Origin = new Vector2(origin.originX, origin.originY);
         }
 
+        public void SetColor(Vector3 color)
+        {
+            this.Color = new Vector3(color.X/255f, color.Y/255f, color.Z/255f);
+        }
+
         public override void OnLoad()
         {
 
@@ -85,6 +91,11 @@ namespace Swordfish.Components
         public override void Update(GameTime gameTime)
         {
 
+        }
+
+        public override void OnUnload()
+        {
+            texture.Unload();
         }
 
         internal void BindTexture(TextureUnit textureUnit)

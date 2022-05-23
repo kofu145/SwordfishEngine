@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Swordfish.Core
 {
-    class GameStateManager
+    public class GameStateManager
     {
         /// <summary>
         /// The singleton instance of the GameStateManager.
@@ -79,6 +79,17 @@ namespace Swordfish.Core
                 }
             }
         }
+
+        /// <summary>
+        /// Removes the top screen (gamestate) from the stack, and appends a new one.
+        /// </summary>
+        /// <param name="screen"></param>
+        public void SwapScreen(IGameState screen)
+        {
+            RemoveScreen();
+            AddScreen(screen);
+        }
+
         /// <summary>
         /// Clears the entire stack of gamestates.
         /// </summary>
@@ -116,6 +127,8 @@ namespace Swordfish.Core
                 screens.Peek().Draw();
             }
         }
+        // TODO: make this be called once the screen is added, not iterate over all
+
         /// <summary>
         /// Calls OnLoad methods for all screens when loading.
         /// </summary>

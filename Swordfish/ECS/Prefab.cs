@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 
 namespace Swordfish.ECS
 {
-    public class Prefab : Entity
+    public abstract class Prefab : Entity
     {
         public Prefab() : base(Guid.NewGuid())
         {
 
         }
 
-        public Entity Instantiate()
+        // this is shite and it doesn't fucking work everything is bullshit lol
+        /*
+        public virtual Entity Instantiate()
         {
             return GetDeepCopy();
         }
+        */
 
+        public abstract Entity Instantiate();
     }
 }

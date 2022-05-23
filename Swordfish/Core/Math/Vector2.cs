@@ -47,7 +47,6 @@ namespace Swordfish.Core.Math
         public void Normalize()
         {
             var scale = 1.0f / Length;
-            Console.WriteLine(scale);
             X *= scale;
             Y *= scale;
         }

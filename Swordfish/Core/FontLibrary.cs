@@ -12,7 +12,7 @@ namespace Swordfish.Core
     {
         internal FontTexture fontTexture;
 
-        public FontLibrary(string fontFilePath = "C:/Windows/Fonts/arial.ttf")
+        public FontLibrary(string fontFilePath)// = "C:/Windows/Fonts/arial.ttf")
         {
             this.fontTexture = new FontTexture(TextureUnit.Texture0, fontFilePath);
         }

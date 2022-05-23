@@ -25,6 +25,10 @@ namespace Swordfish.ECS
 
         public virtual void LateUpdate(GameTime gameTime) { }
 
+        public virtual void FixedUpdate(GameTime gameTime) { }
+
+        public virtual void OnUnload() { }
+
         // sparse definition for now
         public void ApplyNewCopyParent(Entity entity)
         {

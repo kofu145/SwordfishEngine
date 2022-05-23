@@ -23,6 +23,10 @@ namespace Swordfish.ECS
 
         public void LateUpdate(GameTime gameTime);
 
+        public void FixedUpdate(GameTime gameTime);
+
+        public void OnUnload();
+
         public void SetParent(Entity parentEntity);
 
         public void ApplyNewCopyParent(Entity entity);

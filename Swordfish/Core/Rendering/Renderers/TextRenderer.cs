@@ -141,7 +141,8 @@ namespace Swordfish.Core.Rendering.Renderers
                     float w = ch.Size.X * labelComponent.FontSize;
                     float h = ch.Size.Y * labelComponent.FontSize;
                     float xrel = char_x + ch.Bearing.X * labelComponent.FontSize;
-                    float yrel = (ch.Size.Y - ch.Bearing.Y) * labelComponent.FontSize;
+                    //float yrel = (ch.Size.Y - ch.Bearing.Y) * labelComponent.FontSize;
+                    float yrel = ch.Size.Y + (ch.Size.Y - ch.Bearing.Y) * labelComponent.FontSize;
 
                     // advance cursors for next glyph (advance is number of 1/64 pixels)
                     char_x += (ch.Advance >> 6) * labelComponent.FontSize; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
@@ -152,7 +153,7 @@ namespace Swordfish.Core.Rendering.Renderers
                     model *= Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(transformComponent.Rotation.Z));
                     model *= Matrix4.CreateTranslation(new Vector3(xrel, yrel, 0.0f));
                     // origin
-                    model *= Matrix4.CreateTranslation(new Vector3(transformComponent.Position.X-totalWidth/2, transformComponent.Position.Y-ch.Size.Y/2, 0.0f));
+                    model *= Matrix4.CreateTranslation(new Vector3(transformComponent.Position.X-totalWidth/2, transformComponent.Position.Y-ch.Size.Y, 0.0f));
 
 
                     shader.SetMatrix4("model", model);

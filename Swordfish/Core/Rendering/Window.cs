@@ -27,20 +27,23 @@ namespace Swordfish.Core.Rendering
         private BackgroundRenderer backgroundRenderer;
         private Camera cameraComponent;
         private GameTime gameTime;
-        
-
+        private FixedUpdater fixedUpdater;
+        private IGameState previousScreen;
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, IGameState initialGameState)
             : base(gameWindowSettings, nativeWindowSettings)
         {
             GameStateManager.Instance.AddScreen(initialGameState);
             InputManager.Instance.SetSystemStates(KeyboardState, MouseState);
-            AudioManager.Instance.Initialize(64, .2f);
+            AudioManager.Instance.Initialize(256, .2f);
             gameTime = new GameTime(0, 0);
+            fixedUpdater = new FixedUpdater(1/60);
+            
         }
         protected override void OnLoad()
         {
+            //fixedUpdater.BeginUpdater();
             pyThread = new Thread(Interpreter.Instance.Update);
-            pyThread.Start();
+            //pyThread.Start();
             base.OnLoad();
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
@@ -49,22 +52,21 @@ namespace Swordfish.Core.Rendering
             this.backgroundRenderer = new BackgroundRenderer(Size.X, Size.Y);
             this.spriteRenderer = new SpriteRenderer(Size.X, Size.Y);
             this.textRenderer = new TextRenderer();
+
+            var currentScene = GameStateManager.Instance.GetScreen().GameScene;
+            GameStateManager.Instance.OnLoad();
+            
+            currentScene.UpdateEntities();
+
             // get our camera
-            cameraComponent = GameStateManager.Instance.GetScreen().GameScene.Entities
+            cameraComponent = currentScene.Entities
                 .Where(e => e.HasComponent<Camera>()).First().GetComponent<Camera>();
 
             if (cameraComponent.AutoSetCameraSize)
             {
                 cameraComponent.SetCameraBounds(Size.X, Size.Y);
             }
-            GameStateManager.Instance.OnLoad();
-            foreach (var entity in GameStateManager.Instance.GetScreen().GameScene.Entities)
-            {
-                foreach (var component in entity.GetComponents())
-                {
-                    component.OnLoad();
-                }
-            }
+            
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -72,6 +74,12 @@ namespace Swordfish.Core.Rendering
             //imGuiRenderer.Update(this, (float)e.Time);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
             var currentScene = GameStateManager.Instance.GetScreen().GameScene;
+            if (previousScreen != GameStateManager.Instance.GetScreen())
+            {
+                previousScreen = GameStateManager.Instance.GetScreen();
+                return;
+            }
+            previousScreen = GameStateManager.Instance.GetScreen();
             //spriteRenderer.RenderBackground(currentScene, cameraComponent.gameCamera, Size.X, Size.Y);
             backgroundRenderer.Render(currentScene, cameraComponent.gameCamera, Size.X, Size.Y);        
             spriteRenderer.Draw(currentScene, cameraComponent.gameCamera);
@@ -84,31 +92,42 @@ namespace Swordfish.Core.Rendering
             Interpreter.UpdateHandle.Set();
             GameStateManager.Instance.Draw();
             SwapBuffers();
-            
-        }
-        protected override void OnUpdateFrame(FrameEventArgs e)
-        {
             // for all entities run update
             // for all scripts run update
             base.OnUpdateFrame(e);
             gameTime.UpdateTime(e.Time);
-            var currentScene = GameStateManager.Instance.GetScreen().GameScene;
-            GameStateManager.Instance.Update(gameTime);
 
-            foreach (var entity in GameStateManager.Instance.GetScreen().GameScene.Entities)
+            //var currentScene = GameStateManager.Instance.GetScreen().GameScene;
+            GameStateManager.Instance.Update(gameTime);
+            currentScene.UpdateEntities();
+            foreach (var entity in currentScene.Entities)
             {
                 var components = entity.GetComponents();
+
                 foreach (var component in components)
                     component.EarlyUpdate(gameTime);
 
                 foreach (var component in components)
                     component.Update(gameTime);
 
-                // iterate again, so everything is called as soon as above updates() are passed
+                // iterate again, so everything is called after above updates() are passed
                 foreach (var component in components)
                     component.LateUpdate(gameTime);
 
             }
+
+        }
+
+        protected override void OnMove(WindowPositionEventArgs e)
+        {
+
+            base.OnMove(e);
+            OnRenderFrame(new FrameEventArgs());
+
+        }
+        protected override void OnUpdateFrame(FrameEventArgs e)
+        {
+            
         }
         protected override void OnTextInput(TextInputEventArgs e)
         {
@@ -118,6 +137,7 @@ namespace Swordfish.Core.Rendering
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             base.OnMouseWheel(e);
+
             //imGuiRenderer.MouseScroll(e.Offset);
         }
         protected override void OnResize(ResizeEventArgs e)
@@ -127,6 +147,7 @@ namespace Swordfish.Core.Rendering
             if (cameraComponent.AutoSetCameraSize)
                 cameraComponent.SetCameraBounds(Size.X, Size.Y);
             //imGuiRenderer.WindowResized(ClientSize.X, ClientSize.Y);
+            OnRenderFrame(new FrameEventArgs());
 
         }
 

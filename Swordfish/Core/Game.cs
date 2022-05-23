@@ -24,13 +24,17 @@ namespace Swordfish.Core
                 Title = title,
                 // This is needed to run on macos
                 Flags = ContextFlags.ForwardCompatible,
+                WindowBorder = WindowBorder.Fixed,
+                
             };
 
-            using (window = new Window(GameWindowSettings.Default, nativeWindowSettings, initialGameState))
-            {
-                //window.VSync = VSyncMode.Off;
-                window.Run();
-            }
+            
+            WindowManager.Instance.SetGame(this);
+            window = new Window(GameWindowSettings.Default, nativeWindowSettings, initialGameState);
+            window.VSync = VSyncMode.Off;
+
+            window.Run();
+                
         }
     }
 }

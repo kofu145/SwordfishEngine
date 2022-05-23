@@ -15,7 +15,7 @@ namespace Swordfish.Core.Rendering
     /// This entire class is constructed from example snippets
     /// Creates a texture class to handle loading and managing textures.
     /// </summary>
-    internal class Texture
+    public class Texture
     {
         public readonly int Handle;
 
@@ -95,6 +95,11 @@ namespace Swordfish.Core.Rendering
         {
             GL.ActiveTexture(unit);
             GL.BindTexture(TextureTarget.Texture2D, Handle);
+        }
+
+        public void Unload()
+        {
+            GL.DeleteTexture(Handle);
         }
 
     }

@@ -51,7 +51,7 @@ namespace TestGameProject
             testEntity.AddComponent(new Sprite("./Resources/fubuki.png", 255f, 255f, 255f));
             testEntity.AddComponent(new Transform(0f, 0f, 0f, 0f, 0f, 0f, 1f, 1f));
             testEntity.AddComponent(new Sound("./Resources/applause.wav", .5f));
-            this.GameScene.Entities.Add(testEntity);
+            this.GameScene.AddEntity(testEntity);
             testEntity.GetComponent<Sound>().Play();
 
             var trans = new Transform(-250f, 0f, 0f, 0f, 180f, 10f, .3f, .3f);
@@ -59,7 +59,7 @@ namespace TestGameProject
             towaEntity
                 .AddComponent(new Sprite("./Resources/towa.png"))
                 .AddComponent(trans);
-            this.GameScene.Entities.Add(towaEntity);
+            this.GameScene.AddEntity(towaEntity);
 
             towaEntity.RemoveComponent(trans);
 
@@ -67,19 +67,19 @@ namespace TestGameProject
             towaEntity2
                 .AddComponent(new Sprite("./Resources/towa.png"))
                 .AddComponent(new Transform(250f, 0f, 1f, 0f, 0f, -10f, .3f, .3f));
-            this.GameScene.Entities.Add(towaEntity2);
+            this.GameScene.AddEntity(towaEntity2);
 
             var osuEntity = new Entity();
             osuEntity
                 .AddComponent(new Sprite("./Resources/osu.png"))
                 .AddComponent(new Transform(0f, -200f, -.5f, 0f, 0f, 0f, .1f, .1f));
-            this.GameScene.Entities.Add(osuEntity);
+            this.GameScene.AddEntity(osuEntity);
             
 
             var textTestEntity = new Entity();
             textTestEntity.AddComponent(new Label("WEEEEEEEEEEEEEEE", 1f, 0f, 50f, 0f, arial));
             textTestEntity.AddComponent(new Transform(0f, 200f, 0f, 0f, 0f, 0f, 1f, 1f));
-            this.GameScene.Entities.Add(textTestEntity);
+            this.GameScene.AddEntity(textTestEntity);
         }
 
         public override void OnUnload()
